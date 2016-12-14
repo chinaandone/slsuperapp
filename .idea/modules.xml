@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/SmartPen.iml" filepath="$PROJECT_DIR$/SmartPen.iml" />
+      <module fileurl="file://$PROJECT_DIR$/smartpen/smartpen.iml" filepath="$PROJECT_DIR$/smartpen/smartpen.iml" />
+    </modules>
+  </component>
+</project>

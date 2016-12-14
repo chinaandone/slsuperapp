@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/util_lucky_outbg"
+                android:background="@mipmap/icon_lucky_outbg_1"
+
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="29dp"
+        android:layout_height="match_parent">
+
+    <!--5-->
+    <ImageView
+        android:id="@+id/util_lucky_view_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@mipmap/icon_lucky_start_normal"
+        />
+
+
+    <!--1-->
+    <com.cleverm.smartpen.ui.lucky.LuckyItem
+        android:id="@+id/util_lucky_view_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/util_lucky_view_start"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/util_lucky_view_start"
+        android:background="@android:color/transparent"
+        />
+
+    <!--2-->
+    <com.cleverm.smartpen.ui.lucky.LuckyItem
+        android:id="@+id/util_lucky_view_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/util_lucky_view_start"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        />
+
+    <!--3-->
+    <com.cleverm.smartpen.ui.lucky.LuckyItem
+        android:id="@+id/util_lucky_view_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/util_lucky_view_start"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@+id/util_lucky_view_start"
+        />
+
+    <!--6-->
+    <com.cleverm.smartpen.ui.lucky.LuckyItem
+        android:id="@+id/util_lucky_view_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="8dp"
+        android:layout_toRightOf="@id/util_lucky_view_start"/>
+
+
+    <!--9-->
+    <com.cleverm.smartpen.ui.lucky.LuckyItem
+        android:id="@+id/util_lucky_view_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/util_lucky_view_start"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp"
+        android:layout_toRightOf="@id/util_lucky_view_start"/>
+
+    <!--8-->
+    <com.cleverm.smartpen.ui.lucky.LuckyItem
+        android:id="@+id/util_lucky_view_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/util_lucky_view_start"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        />
+
+    <!--7-->
+    <com.cleverm.smartpen.ui.lucky.LuckyItem
+        android:id="@+id/util_lucky_view_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/util_lucky_view_start"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@id/util_lucky_view_start"/>
+
+
+    <!--4-->
+    <com.cleverm.smartpen.ui.lucky.LuckyItem
+        android:id="@+id/util_lucky_view_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@id/util_lucky_view_start"/>
+
+
+</RelativeLayout>
+</RelativeLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/com.cleverm.smartpen"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@mipmap/icon_lucky_bg"
+              android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/ll_lucky_back"
+            android:background="@drawable/select_lucky_draw_back"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_height="wrap_content"/>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="23dp"
+        android:background="@mipmap/icon_lucky_title"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="23dp"
+        android:orientation="horizontal">
+
+
+        <com.cleverm.smartpen.ui.lucky.LuckyView
+            android:id="@+id/lv_luck_draw"
+            android:layout_marginLeft="63dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            app:startBackgroud="@drawable/lucky_draw_start_selector"
+            app:startSrc="@android:color/transparent"/>
+
+
+        <LinearLayout
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="21dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="90dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/icon_lucky_notice"
+                />
+
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

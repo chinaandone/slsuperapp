@@ -1,0 +1,150 @@
+<resources>
+
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="app_name">"美味点点笔"</string>
+    <string name="no_matched_wand">"未检测到匹配的扫描笔,请检查扫描笔是否插上或松动！"</string>
+    <string name="receive_data">"亲，你选择的是: "</string>
+    <string name="welcome">"您好！欢迎使用点菜笔点菜！"</string>
+
+
+    <!-- 请替换成在语音云官网申请的appid -->
+    <!--<string name="app_id">54859360</string>-->
+    <string name="app_id">54ed35e8</string>
+    <string name="text_tts_source">There are a lot of different countries in the world”&#8230;</string>
+
+    <!-- 听写 -->
+    <string name="text_begin">请开始说话&#8230;</string>
+    <string name="pref_key_iat_show">iat_show</string>
+    <string
+        name="tts_toast_format"
+        formatted="false">缓冲进度为%d%%，播放进度为%d%%
+	</string>
+
+    <string name="add_greens">请稍等，\n马上为您加菜！</string>
+    <string name="add_water">请稍等，\n马上为您提供水！</string>
+    <string name="tissue">请稍等，\n马上为您提供纸巾！</string>
+    <string name="pay">请稍等，\n马上为您结账！</string>
+    <string name="other">请稍等，\n正在为您呼叫服务员！</string>
+    <string name="clean">请稍等，\n马上为您收拾餐具！</string>
+    <string name="fondue_soup">请稍等，\n马上为您火锅加汤！</string>
+    <string name="change_tableware">请稍等，\n马上为您更换餐具！</string>
+    <string name="robot_show">请稍等，\n马上为您呼叫Cooky！</string>
+    <string name="robot_show_ok">Wonderful，\Cooky收到消息,马上来您身边！</string>
+    <string name="choice_pay">请选择支付方式</string>
+    <string name="confirm">提交</string>
+    <string name="cancel">取消</string>
+    <string name="weixin_pay">微信支付</string>
+    <string name="baidu_pay">百度钱包</string>
+    <string name="price_cannot_Empty">金额不能为空</string>
+
+    <string name="Please_rate_for_my_services">服务评价</string>
+    <string name="general_evaluation">整体评价:</string>
+    <string name="general_evaluation_hine">谈谈你对此次用餐的体验吧！\n(字数上限200字)</string>
+    <string name="taste">口味:</string>
+    <string name="service_attitude">服务:</string>
+    <string name="evaluation_equipment">设备评价</string>
+    <string name="evaluation_equipment_hine">对使用我们的设备有什么感受吗？也欢迎提出宝贵意见，我们会做的更好!\n(字数上限200字)</string>
+    <string name="good1">非常差</string>
+    <string name="good2">差呀</string>
+    <string name="good3">一般</string>
+    <string name="good4">好</string>
+    <string name="good5">棒棒哒</string>
+    <string name="service_submit">此次评价提交成功</string>
+    <string name="service_submit_empty">o(∩_∩)o么么哒亲，给个小评价哈...</string>
+    <string name="response_speed">环境:</string>
+    <string name="waiting">请稍后</string>
+    <string name="isloading">数据正在加载中……</string>
+    <string name="moving">电影专区</string>
+    <string name="evening">演唱会</string>
+    <string name="zong_yi">综艺节目</string>
+
+    <string name="feng_sheng">风声</string>
+    <string name="i_do">我愿意</string>
+    <string name="xue">雪山瑶</string>
+    <string name="back">归来</string>
+
+    <string name="yan1">2015.12.30 刘德华上海演唱会</string>
+    <string name="yan2">邓紫棋长沙巡回演唱会</string>
+    <string name="yan3">激情澎湃,魅力四射，你不会缺席</string>
+    <string name="yan4">王菲菲唱响中国，燃烧激情</string>
+    <string name="yan5">激情万达，唱响南宁</string>
+
+    <string name="zong1">快乐人生</string>
+    <string name="zong2">时间都去哪儿了</string>
+    <string name="zong3">狂欢嘉年华</string>
+
+    <string name="diao_cha_title"> CBD商业区广告评估调查 </string>
+    <string name="name"> 女士/小姐/先生: </string>
+    <string name="tip">&#160;&#160;&#160;&#160;&#160;&#160;&#160;您好！我是新生代市场研究公司的访问员。目前，我们正在进行一次商业区受众广告接触情况的研究，我想与您谈一些简单的问题。耽误您一些时间，可以吗？</string>
+    <string name="as1">S1. (出示示卡)请问，您本人或您的家人中，现在有没有人在以下列举的地方工作的呢？</string>
+    <string name="as1_1">媒体机构，如报社/杂志社/电视台/电台/互联网</string>
+    <string name="as1_2">市场研究/咨询公司/广告公司/传媒公司</string>
+
+    <string name="as2">S2. 请问，您在过去六个月里有没有接受过市场调查？</string>
+    <string name="as2_1">有</string>
+    <string name="as2_2">没有</string>
+
+    <string name="guide">智能小平板操作指南</string>
+    <string name="guide_detail">使用智能点菜笔点击桌面你想关注的内容</string>
+    <string name="back_to">返回</string>
+
+
+    <string name="currentversion">当前版本：</string>
+    <string name="findnew">&#160;&#160;发现新版本：</string>
+    <string name="isupdate">是否更新？</string>
+    <string name="update">发现软件新版本</string>
+    <string name="isdownloading">正在下载</string>
+    <string name="wait">请稍候...</string>
+    <string name="nowversion">当前版本：</string>
+    <string name="sure">确定</string>
+    <string name="nowisnew">已是最新版,无需更新</string>
+    <string name="change">更新</string>
+    <string name="nochange">不更新</string>
+    <string name="description">更新描述：</string>
+
+    <string name="input_psw">请输入密码:</string>
+    <string name="input_psw_area">输入密码区域</string>
+    <string name="input_host_id">输入商户ID:</string>
+    <string name="input_restaurant_id">输入餐厅ID:</string>
+    <string name="input_desk_id">根据自己餐厅输入相应桌号ID</string>
+    <string name="host_id">商户ID</string>
+    <string name="restaurant_id">餐厅ID</string>
+    <string name="desk_id">输入相应桌号ID(范围:104-2081)</string>
+    <string name="psw_null">密码不对,请重新输入</string>
+    <string name="input_null">输入信息不能为空</string>
+    <string name="choice_desk">选择桌号:  </string>
+    <string name="input_desk_error">输入桌号不对</string>
+    <string name="input_desk_ok">设置桌号成功！</string>
+    <string name="last_desk_choice">您上次选择的是:</string>
+
+    <!-- 滴滴代驾-->
+    <string name="e_driver_text1">滴滴代驾</string>
+    <string name="e_driver_text2">使用微信扫描二维码</string>
+    <string name="no_find_app">平板上没有安装相应APP</string>
+    <string name="title_activity_pay">PayActivity</string>
+
+    <!-- payActivity-->
+    <string name="pay_way">请选择支付方式</string>
+    <string name="cash_pay">现金支付</string>
+    <string name="union_pay_card_pay">银行卡支付</string>
+    <string name="wei_pay">微信支付</string>
+    <string name="ali_pay">支付宝支付</string>
+    <string name="choice_online_pay">&#160;或使用在线支付&#160;</string>
+    <string name="notificate_waiter">已通知服务员，请稍等。</string>
+    <string name="notificate_waiter_notice">请稍等，\n已通知服务员，请稍等!</string>
+
+
+    <!-- 设置orgid  BaseSelectTableActivity-->
+    <string name="orgid">当前商户ID</string>
+    <string name="orgid_confirm">确定</string>
+    <string name="psw_error">密码输入有误或密码为空</string>
+    <string name="connect_waiter_choice_desk">请联系服务员设置餐桌号！</string>
+
+    <!--versionName-->
+    <string name="version_unknown">Unknow</string>
+
+
+</resources>

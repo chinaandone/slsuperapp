@@ -1,0 +1,64 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="Please_rate_for_my_services_textSize1">35dp</dimen>
+    <dimen name="Please_rate_for_my_services_pading">15dp</dimen>
+    <dimen name="service_textsize">30dp</dimen>
+    <dimen name="button_gap">100dp</dimen>
+    <dimen name="AmusementFragment_textsize">40dp</dimen>
+    <dimen name="AmusementFragment_textmagin_left">30dp</dimen>
+    <dimen name="gridview_verticalSpacing">5dp</dimen>
+    <dimen name="gridview_horizontalSpacing">5dp</dimen>
+    <dimen name="gridview_item_image_width">300dp</dimen>
+    <dimen name="gridview_item_image_heigh">200dp</dimen>
+    <dimen name="gridview_item_textsize">22dp</dimen>
+    <dimen name="gridview_item_textpadtop">10dp</dimen>
+
+    <!-- 滴滴代驾-->
+    <dimen name="e_drive_width">430dp</dimen>
+    <dimen name="e_drive_heigh">540dp</dimen>
+    <dimen name="e_drive_icon2_width">268dp</dimen>
+    <dimen name="e_drive_icon2_heigh">268dp</dimen>
+
+    <!-- Select Table Activity begin -->
+    <dimen name="select_table_cancel_btn_margin_top">30dp</dimen>
+    <dimen name="select_table_cancel_btn_margin_end">30dp</dimen>
+    <dimen name="select_table_horizontal_scroll_view_margin_top">100dp</dimen>
+    <dimen name="select_table_confirm_btn_margin_bottom">50dp</dimen>
+    <dimen name="select_table_tab_item_text_size">36sp</dimen>
+    <dimen name="select_table_tab_item_padding_top">24dp</dimen>
+    <dimen name="select_table_tab_item_padding_bottom">24dp</dimen>
+    <dimen name="select_table_view_pager_margin_top">31dp</dimen>
+    <dimen name="select_table_view_pager_margin_bottom">69dp</dimen>
+    <dimen name="select_table_view_pager_margin_start">117dp</dimen>
+    <dimen name="select_table_view_pager_margin_end">117dp</dimen>
+    <dimen name="select_table_grid_view_horizontal_spacing">65dp</dimen>
+    <dimen name="select_table_grid_view_vertical_spacing">10dp</dimen>
+    <dimen name="select_table_grid_view_item_size">120dp</dimen>
+    <dimen name="select_table_grid_view_item_text_size">34sp</dimen>
+    <!-- Select Table Activity end -->
+
+    <!-- pay Activity-->
+    <dimen name="pay_activity_width">430dp</dimen>
+    <dimen name="pay_activity_heigh">540dp</dimen>
+    <dimen name="pay_way_text_size">32dp</dimen>
+    <dimen name="pay_way_text_top">30dp</dimen>
+    <dimen name="cash_pay_text_size">28dp</dimen>
+
+    <dimen name="orgid_text_size">35dp</dimen>
+
+
+    <!--dialog-->
+    <dimen name="dialog_width">400dp</dimen>
+    <dimen name="dialog_height">280dp</dimen>
+    <dimen name="dialog_body_margin_start_end">28dp</dimen>
+    <dimen name="dialog_title_margin_top">14dp</dimen>
+    <dimen name="dialog_title_margin_bottom">20dp</dimen>
+    <dimen name="dialog_title_text_size">24sp</dimen>
+    <dimen name="dialog_button_min_height">70dp</dimen>
+    <dimen name="dialog_button_text_size">24sp</dimen>
+    <dimen name="message_alert_dialog_message_text_size">18sp</dimen>
+
+
+</resources>

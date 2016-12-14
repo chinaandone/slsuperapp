@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@mipmap/icon_lucky_bg"
+             android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="56dp"
+        android:layout_marginLeft="148dp"
+        android:layout_marginRight="148dp"
+        android:layout_marginTop="114dp"
+        android:background="@mipmap/icon_lucky_detail_bg"
+        android:gravity="center">
+
+    </ImageView>
+
+    <ImageView
+        android:layout_width="444dp"
+        android:layout_height="166dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="26dp"
+        android:background="@mipmap/icon_lucky_detail_big_winning"/>
+
+
+    <ImageView
+        android:id="@+id/iv_lucky_detail_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="165dp"
+        android:layout_marginTop="124dp"
+        android:background="@drawable/select_lucky_draw_detail_back"/>
+
+
+    <!--phone-->
+    <LinearLayout
+        android:id="@+id/ll_lucky_detail_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+
+
+        <ImageView
+            android:id="@+id/iv_lucky_detail_phone_image"
+            android:layout_width="wrap_content"
+            android:layout_height="360dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="190dp"
+            android:scaleType="fitXY"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_lucky_detail_phone_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="14dp">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="bottom"
+                android:text="输入手机号"
+                android:textColor="#BC0A16"
+                android:textSize="24sp"/>
+
+            <EditText
+                android:id="@+id/ll_lucky_detail_phone_ed"
+                android:layout_width="171dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/lucky_draw_edittext"
+                android:maxLength="13"
+                android:paddingLeft="20dp"
+                android:numeric="integer"
+                android:cursorVisible="false"
+                android:singleLine="true"
+                android:textColor="#BC0A16"
+                android:textSize="20sp"/>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/ll_lucky_detail_phone_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/lucky_draw_detail_btn_selector"/>
+
+
+    </LinearLayout>
+
+
+    <!--coupon-->
+    <LinearLayout
+        android:id="@+id/ll_lucky_detail_coupon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:id="@+id/iv_lucky_detail_coupon_image"
+            android:layout_width="wrap_content"
+            android:layout_height="360dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="190dp"
+            android:scaleType="fitXY"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="#BC0A16"
+            android:textSize="24sp"
+            android:text="微信扫描二维码"/>
+
+
+        <ImageView
+            android:src="@mipmap/icon_lucky_detail_arrow"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"/>
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
+            android:textColor="#BC0A16"
+            android:textSize="24sp"
+            android:text="领取奖品"/>
+
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/iv_lucky_detail_success"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:background="@mipmap/icon_lucky_detail_success"
+        android:layout_height="wrap_content"/>
+
+
+</FrameLayout>

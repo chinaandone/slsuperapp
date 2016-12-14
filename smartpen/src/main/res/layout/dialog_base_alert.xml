@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="@dimen/dialog_width"
+        android:layout_height="@dimen/dialog_height"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_dialog">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/DefaultDialogTitle" />
+
+        <LinearLayout
+            android:id="@+id/ll_button_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_negative"
+                style="@style/DefaultDialogButton"
+                android:background="@drawable/dialog_btn_left" />
+
+            <Button
+                android:id="@+id/btn_neutral"
+                style="@style/DefaultDialogButton"
+                android:background="@drawable/dialog_btn_center" />
+
+            <Button
+                android:id="@+id/btn_positive"
+                style="@style/DefaultDialogButton"
+                android:background="@drawable/dialog_btn_right" />
+        </LinearLayout>
+
+        <ViewStub
+            android:id="@+id/body_stub"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_button_bar"
+            android:layout_below="@id/tv_title"
+            android:layout_marginEnd="@dimen/dialog_body_margin_start_end"
+            android:layout_marginStart="@dimen/dialog_body_margin_start_end"
+            android:inflatedId="@+id/body" />
+    </RelativeLayout>
+</RelativeLayout>

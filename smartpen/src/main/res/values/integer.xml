@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="RatingBar_maxValue">100</integer>
+    <integer name="RatingBar_maxSums">5</integer>
+    <integer name="RatingBar_step">1</integer>
+    <integer name="gridview_sums">4</integer>
+
+
+</resources>

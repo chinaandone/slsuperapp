@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--luckyView-->
+    <declare-styleable name="LuckyView">
+        <attr name="startSrc" format="reference"/>
+        <attr name="startBackgroud" format="color|reference"/>
+    </declare-styleable>
+
+</resources>

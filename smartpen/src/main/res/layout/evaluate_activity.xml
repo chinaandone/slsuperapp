@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <!-- 服务评价-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="47dp"
+            android:gravity="center_horizontal"
+            android:text="@string/Please_rate_for_my_services"
+            android:textColor="@android:color/black"
+            android:textSize="40dp" />
+
+        <!-- 打星星与用餐体验-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="37dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true" >
+
+            <!-- 打星星-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="75dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="5"
+                android:orientation="vertical">
+
+                <!-- 整体评价-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/service_text"
+                        android:text="@string/general_evaluation" />
+
+                    <RatingBar
+                        android:id="@+id/general_evaluation_RatingBar"
+                        style="@style/roomRatingBar"
+                        android:layout_marginLeft="44dp" />
+
+                    <TextView
+                        android:id="@+id/general_evaluation_RatingBar_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#9b9b9b"
+                        android:textSize="28dp" />
+                </LinearLayout>
+
+                <!-- 口味评价-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/service_text"
+                        android:text="@string/taste" />
+
+                    <RatingBar
+                        android:id="@+id/taste_RatingBar"
+                        style="@style/roomRatingBar"
+                        android:layout_marginLeft="104dp" />
+
+                    <TextView
+                        android:id="@+id/taste_RatingBar_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#9b9b9b"
+                        android:textSize="28dp" />
+                </LinearLayout>
+
+                <!-- 服务评价-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/service_text"
+                        android:text="@string/service_attitude" />
+
+                    <RatingBar
+                        android:id="@+id/service_RatingBar"
+                        style="@style/roomRatingBar"
+                        android:layout_marginLeft="104dp" />
+
+                    <TextView
+                        android:id="@+id/service_RatingBar_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#9b9b9b"
+                        android:textSize="28dp" />
+                </LinearLayout>
+
+                <!-- 环境评价-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/service_text"
+                        android:text="@string/response_speed" />
+
+                    <RatingBar
+                        android:id="@+id/huanjing_RatingBar"
+                        style="@style/roomRatingBar"
+                        android:layout_marginLeft="104dp" />
+
+                    <TextView
+                        android:id="@+id/huanjing_RatingBar_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:textColor="#9b9b9b"
+                        android:textSize="28dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/eat_input"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="86dp"
+                android:layout_marginRight="75dp"
+                android:layout_weight="4"
+                android:background="@drawable/biankuang"
+                android:gravity="start"
+                android:paddingTop="18dp"
+                android:paddingLeft="14dp"
+                android:hint="@string/general_evaluation_hine"
+                android:maxLength="200"
+                android:textColor="@android:color/black"
+                android:textColorHint="#9b9b9b" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36sp"
+            android:gravity="center_horizontal"
+            android:text="@string/evaluation_equipment"
+            android:textColor="#000000"
+            android:textSize="40dp" />
+
+        <EditText
+            android:id="@+id/equipment_input"
+            android:layout_width="1130dp"
+            android:layout_height="118dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30sp"
+            android:background="@drawable/biankuang"
+            android:gravity="start"
+            android:paddingTop="18dp"
+            android:paddingLeft="14dp"
+            android:hint="@string/evaluation_equipment_hine"
+            android:maxLength="200"
+            android:textColor="@android:color/black"
+            android:textColorHint="#9b9b9b" />
+
+        <Button
+            android:id="@+id/other_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/submit" />
+    </LinearLayout>
+
+    <!-- 关闭按钮-->
+    <ImageView
+        android:id="@+id/service_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:src="@drawable/select_close" />
+</RelativeLayout>

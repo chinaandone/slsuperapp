@@ -1,0 +1,132 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <!-- 隐藏状态栏 -->
+        <item name="android:windowFullscreen">true</item>
+        <!-- 隐藏标题栏 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="VideoTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <!-- 隐藏状态栏 -->
+        <item name="android:windowFullscreen">true</item>
+        <!-- 隐藏标题栏 -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="DiscountDetailTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <!-- 隐藏状态栏 -->
+        <item name="android:windowFullscreen">false</item>
+        <!-- 隐藏标题栏 -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="service_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/service_textsize</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:layout_marginLeft">40dp</item>
+    </style>
+
+    <style name="RatingBar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:stepSize">@integer/RatingBar_step</item>
+        <item name="android:max">@integer/RatingBar_maxValue</item>
+        <item name="android:numStars">@integer/RatingBar_maxSums</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">-8dp</item>
+    </style>
+
+    <style name="AmusementFragment_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textSize">@dimen/AmusementFragment_textsize</item>
+        <item name="android:layout_marginLeft">@dimen/AmusementFragment_textmagin_left</item>
+    </style>
+
+    <style name="AmusementFragment_GridView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:numColumns">@integer/gridview_sums</item>
+        <item name="android:verticalSpacing">@dimen/gridview_verticalSpacing</item>
+        <item name="android:horizontalSpacing">@dimen/gridview_horizontalSpacing</item>
+    </style>
+
+    <style name="roomRatingBar" parent="@android:style/Widget.RatingBar">
+
+        <item name="android:progressDrawable">@drawable/ratingbar_drawable</item>
+
+        <!--<item name="android:minHeight">110dp</item>-->
+
+        <!--<item name="android:maxHeight">110dp</item>-->
+
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:stepSize">@integer/RatingBar_step</item>
+        <item name="android:max">@integer/RatingBar_maxValue</item>
+        <item name="android:numStars">@integer/RatingBar_maxSums</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">-3dp</item>
+    </style>
+
+    <style name="MajorText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">#ffffffff</item>
+    </style>
+
+    <!---->
+    <style name="BannerDefaultStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <!--<item name="android:layout_marginTop">10dp</item>-->
+        <!-- 自定义属性在styles.xml中不需要命名空间,直接用属性名就可以了 -->
+        <!-- 开启自动轮播 -->
+        <item name="banner_pointAutoPlayAble">true</item>
+        <!-- 自动轮播的时间间隔 -->
+        <item name="banner_pointAutoPlayInterval">3000</item>
+        <!-- 指示点容器背景 -->
+        <item name="banner_pointContainerBackground">@android:color/transparent</item>
+        <!-- 指示点背景 -->
+        <item name="banner_pointDrawable">@drawable/selector_banner_point1</item>
+        <!-- 指示点容器左右内间距 -->
+        <item name="banner_pointContainerLeftRightPadding">10dp</item>
+        <!-- 指示点上下外间距 -->
+        <item name="banner_pointTopBottomMargin">80dp</item>
+        <!-- 指示点左右外间距 -->
+        <item name="banner_pointLeftRightMargin">3dp</item>
+        <!-- 指示点的位置 -->
+        <item name="banner_pointGravity">bottom|center_horizontal</item>
+        <!-- 页码切换过程的时间长度 -->
+        <item name="banner_pageChangeDuration">800</item>
+        <!-- 提示文案的文字大小 -->
+        <item name="banner_tipTextSize">10sp</item>
+        <!-- 提示文案的文字颜色 -->
+        <item name="banner_tipTextColor">@android:color/white</item>
+    </style>
+
+    <style name="mypopwindow_anim_style">
+        <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
+        <!-- 指定显示的动画xml -->
+
+        <item name="android:windowExitAnimation">@anim/pophidden_anim</item>
+        <!-- 指定消失的动画xml -->
+    </style>
+
+
+
+
+</resources>

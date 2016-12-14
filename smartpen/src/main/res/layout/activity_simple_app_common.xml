@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:id="@+id/ll_root"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:orientation="horizontal">
+
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.cleverm.smartpen.ui.FullScreenVideoView
+                    android:id="@+id/fsvv_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+
+
+                <!---->
+                <FrameLayout
+                    android:id="@+id/iv_ad_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:background="@mipmap/icon_video_wangwang"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                    <ImageView
+                        android:id="@+id/iv_ad_anim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </FrameLayout>
+
+
+
+
+
+                <TextView
+                    android:id="@+id/tv_desk"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="@string/connect_waiter_choice_desk"
+                    android:textColor="@android:color/holo_red_light"
+                    android:textSize="35dp"/>
+
+                <RelativeLayout
+                    android:id="@+id/rl_toast"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="340dp"
+                    android:background="@drawable/icon_simple_toast_bg_long"
+                    android:gravity="center"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_toast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="2dp"
+                        android:text="桌号未设置,请直接找服务员~"
+                        android:textColor="#ffffff"
+                        android:textSize="24sp"/>
+                </RelativeLayout>
+
+
+                <!---->
+                <RelativeLayout
+                    android:id="@+id/rl_out_of_charging"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_out_of_charging"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+
+                <!---->
+                <RelativeLayout
+                    android:id="@+id/rlNotice"
+                    android:layout_width="700dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="bottom|center"
+                    android:layout_marginBottom="80dp"
+                    android:visibility="gone"
+                    >
+
+                    <ImageView
+                        android:id="@+id/ivNoticeImage"
+                        android:layout_width="250dp"
+                        android:layout_height="250dp"
+                        android:alpha="1"
+                        android:src="@mipmap/icon_simple_food"/>
+
+                    <LinearLayout
+                        android:layout_width="450dp"
+                        android:layout_height="250dp"
+                        android:layout_toRightOf="@+id/ivNoticeImage"
+                        android:alpha="0.7"
+                        android:background="@android:color/background_dark">
+
+                        <TextView
+                            android:id="@+id/rlNoticeText"
+                            android:layout_width="450dp"
+                            android:layout_height="250dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginTop="75dp"
+                            android:alpha="1"
+                            android:paddingLeft="71dp"
+                            android:text="@string/add_greens"
+                            android:textColor="#ffffff"
+                            android:textSize="36dp"/>
+                    </LinearLayout>
+                </RelativeLayout>
+
+
+                <!--悬浮-->
+                <LinearLayout
+                    android:id="@+id/levitate_pay"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="92dp"
+                    android:layout_marginRight="92dp"
+                    android:layout_marginTop="244dp"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1">
+
+                     <ImageView
+                            android:id="@+id/iv_levitate_pay_ali"
+                            android:layout_width="194dp"
+                            android:clickable="true"
+                            android:layout_height="194dp"
+                            android:background="@drawable/select_levitate_pay_ali"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/iv_levitate_pay_weixin"
+                            android:layout_width="194dp"
+                            android:layout_height="194dp"
+                            android:clickable="true"
+                            android:background="@drawable/select_levitate_pay_weixin"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/iv_levitate_pay_unioncard"
+                            android:layout_width="194dp"
+                            android:layout_height="194dp"
+                            android:clickable="true"
+                            android:background="@drawable/select_levitate_pay_unioncard"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/iv_levitate_pay_cash"
+                            android:layout_width="194dp"
+                            android:layout_height="194dp"
+                            android:clickable="true"
+                            android:layout_weight="1"
+                            android:background="@drawable/select_levitate_pay_cash"/>
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:layout_width="180dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/black"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:id="@+id/iv_call_food"
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="26dp"
+                    android:background="@drawable/select_simple_right_food"/>
+
+                <ImageView
+                    android:id="@+id/iv_call_water"
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/select_simple_right_water"/>
+
+
+                <ImageView
+                    android:id="@+id/iv_call_pay"
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/select_simple_right_pay"/>
+
+
+                <ImageView
+                    android:id="@+id/iv_call_other"
+                    android:layout_width="115dp"
+                    android:layout_height="115dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/select_simple_right_other"
+                    />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:background="@android:color/black"
+            android:gravity="center_vertical"
+            android:paddingLeft="250dp">
+
+            <ImageView
+                android:id="@+id/iv_go_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_simple_money"/>
+
+            <ImageView
+                android:id="@+id/iv_go_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_simple_shop"/>
+
+            <ImageView
+                android:id="@+id/iv_go_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/select_simple_play"/>
+
+            <ImageView
+                android:id="@+id/iv_go_benefit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/select_simple_benefit"/>
+
+            <ImageView
+                android:id="@+id/iv_go_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/select_simple_video"/>
+
+            <ImageView
+                android:id="@+id/iv_go_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/select_simple_game"/>
+
+
+            <!--优惠专区-->
+            <ImageView
+                android:id="@+id/iv_go_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:visibility="gone"
+                android:background="@drawable/select_simple_discount"/>
+
+            !--抽奖专区-->
+            <ImageView
+                android:id="@+id/iv_go_lucky"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/select_simple_lucky"/>
+
+
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.cleverm.smartpen.ui.LongPressView
+                    android:id="@+id/iv_go_shade_setting"
+                    android:layout_width="180dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--fix splash screen-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--fix splash screen-->
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@mipmap/future"
+        android:id="@+id/future_pic"
+        />
+
+    <!-- 关闭按钮-->
+    <ImageView
+        android:id="@+id/future_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        android:src="@drawable/select_close" />
+</RelativeLayout>

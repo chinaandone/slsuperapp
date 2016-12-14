@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+                android:oneshot="false">
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_1" android:duration="100"/>
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_2" android:duration="100" />
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_3" android:duration="100" />
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_4" android:duration="100" />
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_5" android:duration="100" />
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_6" android:duration="100" />
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_7" android:duration="100" />
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_8" android:duration="100" />
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_9" android:duration="100" />
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_10" android:duration="100" />
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_11" android:duration="100" />
+    <item android:drawable="@mipmap/iv_go_lucky_common_red_12" android:duration="100" />
+
+</animation-list>

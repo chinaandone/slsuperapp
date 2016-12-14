@@ -1,0 +1,128 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/pay_bg"
+    tools:context="com.cleverm.smartpen.app.PayActivity">
+
+    <LinearLayout
+        android:layout_width="@dimen/pay_activity_width"
+        android:layout_height="@dimen/pay_activity_heigh"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:background="#ffffff"
+         >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/pay_way"
+            android:textColor="#444444"
+            android:textSize="@dimen/pay_way_text_size"
+            android:layout_marginTop="@dimen/pay_way_text_top"
+            />
+        
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="46dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/cash_pay"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/cash_pay_text_size"
+            android:paddingBottom="5dp"
+            android:id="@+id/cash_pay"
+            android:background="@drawable/select_cash_pay"/>
+
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/union_pay_card_pay"
+            android:textColor="#ffffff"
+            android:paddingBottom="5dp"
+            android:textSize="@dimen/cash_pay_text_size"
+            android:id="@+id/union_pay_card_pay"
+            android:background="@drawable/select_cash_pay"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="@string/choice_online_pay"
+            android:textSize="24dp"
+            android:layout_marginTop="40dp"
+            android:drawableLeft="@mipmap/line"
+            android:drawableRight="@mipmap/line"
+
+            />
+
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/weixin_pay"
+            android:paddingBottom="5dp"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/cash_pay_text_size"
+            android:id="@+id/weixin_pay"
+            android:background="@drawable/select_phone_pay"/>
+
+
+        <Button
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/ali_pay"
+            android:paddingBottom="5dp"
+            android:textColor="#ffffff"
+            android:id="@+id/ali_pay"
+            android:textSize="@dimen/cash_pay_text_size"
+            android:background="@drawable/select_phone_pay"/>
+    </LinearLayout>
+
+    <!-- 显示铃铛-->
+    <LinearLayout
+        android:layout_width="485dp"
+        android:layout_height="200dp"
+        android:orientation="vertical"
+        android:background="@drawable/notificatewaiter_bg"
+        android:layout_centerInParent="true"
+        android:id="@+id/notificate_waiter"
+        android:visibility="gone"
+        android:alpha="0.7">
+        
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@mipmap/ic_bell"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:textSize="36dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/notificate_waiter"/>
+
+    </LinearLayout>
+    <!-- 所有关闭按钮-->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/select_close"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/pay_close"
+        android:clickable="true"/>
+</RelativeLayout>

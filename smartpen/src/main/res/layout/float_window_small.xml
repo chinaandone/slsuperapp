@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="485dp"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center"
+              android:id="@+id/small_window_layout"
+              android:background="#80000000"
+              android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal">
+
+        <ImageView
+
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@mipmap/icon_ble_disconnect"/>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="bottom"
+            android:background="@mipmap/icon_ble_notice"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="17dp"
+        android:paddingBottom="42dp"
+        android:text="无线笔未连接"
+        android:textColor="@android:color/white"
+        android:textSize="36sp"/>
+
+
+</LinearLayout>
