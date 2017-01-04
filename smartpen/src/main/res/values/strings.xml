@@ -143,6 +143,11 @@
     <string name="psw_error">密码输入有误或密码为空</string>
     <string name="connect_waiter_choice_desk">请联系服务员设置餐桌号！</string>
 
+    <!-- add by randy for BleDongle连接提示-->
+    <string name="ble_dongle_disconnect">呼叫服务的蓝牙设备断开连接！</string>
+    <string name="ble_dongle_notfound">未扫描到呼叫服务的蓝牙设备</string>
+    <string name="ble_dongle_notconfig">呼叫服务的蓝牙设备信息未获取,请联系服务人员配置</string>
+
     <!--versionName-->
     <string name="version_unknown">Unknow</string>
 

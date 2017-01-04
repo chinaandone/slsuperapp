@@ -14,10 +14,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bleframe.library.BleManager;
+import com.bleframe.library.config.BleConfig;
+import com.bleframe.library.profile.SmartPenProfile;
 import com.cleverm.smartpen.R;
 import com.cleverm.smartpen.Version.VersionManager;
 import com.cleverm.smartpen.application.SmartPenApplication;
+import com.cleverm.smartpen.bean.BleSetInfo;
 import com.cleverm.smartpen.bean.DiscountInfo;
 import com.cleverm.smartpen.bean.event.OnBootRestartEvent;
 import com.cleverm.smartpen.bean.event.OnChangeAnimNoticeEvent;
@@ -27,12 +32,17 @@ import com.cleverm.smartpen.bean.event.OnPayEvent;
 import com.cleverm.smartpen.bean.event.OnToastEvent;
 import com.cleverm.smartpen.bean.event.OnVideoBackEvent;
 import com.cleverm.smartpen.database.DatabaseHelper;
+import com.cleverm.smartpen.evnet.OnDisconnectEvent;
+import com.cleverm.smartpen.evnet.OnFindServiceEvent;
+import com.cleverm.smartpen.evnet.OnNoDeviceFoundEvent;
+import com.cleverm.smartpen.evnet.OnNotifyEvent;
 import com.cleverm.smartpen.modle.TableType;
 import com.cleverm.smartpen.net.InfoSendSMSVo;
 import com.cleverm.smartpen.net.RequestNet;
 import com.cleverm.smartpen.pushtable.NetworkMonitor;
 import com.cleverm.smartpen.ui.FullScreenVideoView;
 import com.cleverm.smartpen.ui.LongPressView;
+import com.cleverm.smartpen.util.BleOperation;
 import com.cleverm.smartpen.util.Constant;
 import com.cleverm.smartpen.util.DownloadUtil;
 import com.cleverm.smartpen.util.IntentUtil;
@@ -47,7 +57,6 @@ import com.cleverm.smartpen.util.StatisticsUtil;
 import com.cleverm.smartpen.util.ThreadManager;
 import com.cleverm.smartpen.util.UpdateTableUtil;
 import com.cleverm.smartpen.util.VideoManager;
-import com.cleverm.smartpen.util.VideoPCUtil;
 import com.cleverm.smartpen.util.WeakHandler;
 import com.cleverm.smartpen.util.excle.CreateExcel;
 import com.cleverm.smartpen.util.online.InformationOnline;
@@ -62,11 +71,14 @@ import org.json.JSONException;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.ALI_PAY;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.CASH_PAY;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.FOOD;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.OTHER;
+import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.PAY;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.UNION_CARD_PAY;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.WATER;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.WEIXIN_PAY;
@@ -87,6 +99,15 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     private Context mContext;
     Dispatch mDispatch;
     private static final String TAG = SimpleAppActivity.class.getSimpleName()+"：";
+
+    //add by Randy for Ble Dongle
+    private boolean ifBleConnect = true;
+    private boolean ifBleConfig = true;
+    public static final String SPE_DONGLE_ADD = "Dongleadd";
+    public static final String SPE_WATCH_ADD = "Watchadd";
+    public static final String SPE_BLE_MAC = "BLEmac";
+    private final Timer timer = new Timer();
+    private TimerTask ttask = null;
 
     FullScreenVideoView mVideoFsvv;
     ImageView mCallFood;
@@ -370,11 +391,11 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void run() {
                 if (alreadySend == false) {
-                    
+
                     InfoSendSMSVo getSMSVo = RequestNet.getData(infoSendSMSVo);
-                    
-                    
-                    
+
+
+
                     if (getSMSVo != null && getSMSVo.getSuccess()) {
                         QuickUtils.log(TAG + "SendSMS-success" + getSMSVo.getSuccess());
                         dispatch.doStartAnimation(code);
@@ -463,6 +484,13 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         initView();
         initListener();
         initData();
+        //add by Randy for ble call services start
+        if(RememberUtil.getString(SPE_BLE_MAC,"").equals("")){
+            ifBleConfig = false;
+        }else {
+            BleOperation.openBLEPen(this, RememberUtil.getString(SPE_BLE_MAC, ""));
+        }
+        //add by Randy for ble call services end
 
 //        UpdateTableUtil.getInstance().goNewTable();
     }
@@ -549,8 +577,58 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         SimpleStatisticsLogic.getInstance().start(this);
         VideoManager.getInstance().initVideoEngine(mVideoFsvv, this);
         RememberUtil.putBoolean(Constant.BROADCAST_RESATRT_EVENT, false);
+        //add by Randy get Ble set info start
+        if(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)!=8888) {
+            ServiceUtil.getInstance().getBleSetInfo(QuickUtils.getOrgIdFromSp(),
+                    String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
+                    new ServiceUtil.JsonInterface() {
+                        @Override
+                        public void onSucced(String json) {
+                            try {
+                                BleSetInfo bleSetInfo = ServiceUtil.getInstance().parserSingleData(json, BleSetInfo.class);
+//                                RememberUtil.putInt(SPE_WATCH_ADD, Integer.parseInt(bleSetInfo.getWatchadd()));
+                                //支持多个手环配置
+                                RememberUtil.putString(SPE_WATCH_ADD,bleSetInfo.getWatchadd());
+                                RememberUtil.putInt(SPE_DONGLE_ADD, Integer.parseInt(bleSetInfo.getDongleadd()));
+                                RememberUtil.putString(SPE_BLE_MAC, bleSetInfo.getMac_address());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(String error) {
+
+                        }
+                    });
+        }
+        //add by Randy get Ble set info end
+        //add by Randy for upload heartbeat start
+        ttask = new TimerTask() {
+            @Override
+            public void run() {
+                ServiceUtil.getInstance().updateHeartBeat(QuickUtils.getOrgIdFromSp(),
+                        String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
+                                String.valueOf(QuickUtils.getVersionCode()),
+                                QuickUtils.getVersionName(),
+                        new ServiceUtil.JsonInterface() {
+                            @Override
+                            public void onSucced(String json) {
+
+                            }
+
+                            @Override
+                            public void onFail(String error) {
+
+                            }
+                        });
+            }
+        };
+        timer.schedule(ttask,10000,1000*600);
+        //add by Randy for upload heartbeat end
         checkNetState();
         doTimerClock();
+
 
     }
 
@@ -582,20 +660,26 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.iv_call_food:
                 handlerMessage(FOOD);
+//                Toast.makeText(this.mContext,RememberUtil.getString(SelectTableActivity.SELECTEDTABLENAME,""),Toast.LENGTH_LONG).show();
+//                Toast.makeText(this.mContext,DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0)),Toast.LENGTH_LONG).show();
+                sendCallService(FOOD);
                 doStatistic(StatisticsUtil.CALL_ADD_FOOD, StatisticsUtil.CALL_ADD_FOOD_DESC);
                 break;
 
             case R.id.iv_call_water:
                 handlerMessage(WATER);
+                sendCallService(WATER);
                 doStatistic(StatisticsUtil.CALL_ADD_WATER, StatisticsUtil.CALL_ADD_WATER_DESC);
                 break;
             case R.id.iv_call_pay:
                 handlerPayMessage();
+                sendCallService(PAY);
                 doStatistic(StatisticsUtil.CALL_PAY, StatisticsUtil.CALL_PAY_DESC);
                 break;
 
             case R.id.iv_call_other:
                 handlerMessage(OTHER);
+                sendCallService(OTHER);
                 doStatistic(StatisticsUtil.CALL_OTHER_SERVIC, StatisticsUtil.CALL_OTHER_SERVIC_DESC);
                 break;
 
@@ -821,6 +905,90 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         return templateIDState;
     }
 
+    //add by randy for Ble Dongle Call Service
+    private void sendCallService(MessageCode messageCode){
+        byte[] sendMsg = initSendMsg();
+        int templateID = 0;
+        switch (messageCode) {
+            case FOOD:
+                templateID = Constant.FOOD_ADD_SMS;
+                break;
+
+            case WATER:
+                templateID = Constant.WATER_ADD_SMS;
+                break;
+
+            case PAY:
+                templateID = Constant.PAY_MONRY_SMS;
+                break;
+
+            case OTHER:
+                templateID = Constant.OTHER_SERVICE_SMS;
+                break;
+
+            case UNION_CARD_PAY:
+                templateID = Constant.UNION_CARD_PAY_SMS;
+                break;
+
+            case CASH_PAY:
+                templateID = Constant.CASH_PAY_SMS;
+                break;
+            case WEIXIN_PAY:
+                templateID = Constant.WEIXIN_PAY_SMS;
+                break;
+            case ALI_PAY:
+                templateID = Constant.ALI_PAY_SMS;
+                break;
+        }
+        sendMsg[6]= (byte) templateID;
+        String tmpstr = "";
+        String s = "";
+        for(int i=0;i<sendMsg.length;i++){
+            s=Integer.toHexString(sendMsg[i] & 0x00ff);
+            if(s.length()==1){
+                s="0"+s;
+            }
+            tmpstr = tmpstr + s + " ";
+        }
+        Log.v("MSG HEX STRING IS ",tmpstr);
+//        Toast.makeText(this.mContext,tmpstr,Toast.LENGTH_LONG).show();
+        String UUID_WRITE_CHARACTERISTIC= "0000fff3-0000-1000-8000-00805f9b34fb";
+        BleManager.getInstance().send(SmartPenProfile.UUID_MAIN_SERVICE, UUID_WRITE_CHARACTERISTIC, null,
+                sendMsg, BleConfig.WriteReadAttribute.CHARACTERISTIC);
+//        BleManager.getInstance().send();
+    }
+    private byte[] initSendMsg(){
+        byte[] sendMsg = new byte[20];
+        for(int i=0;i<20;i++){
+            sendMsg[i]=(byte)0xff;
+        }
+        sendMsg[0]= (byte) 0x1f;     //帧类型
+        sendMsg[1]= (byte) RememberUtil.getInt(SPE_DONGLE_ADD,16);  //源地址
+        sendMsg[2]= (byte) 0x01;     //目的地址，目前固定用01
+        sendMsg[3]= (byte) 0x01;     //序列号
+        sendMsg[4]= (byte) 0x0E;     //Data段Length位
+        sendMsg[5]= (byte) 0x01;     //状态位
+        sendMsg[6]= (byte) 0x01;     //Data的第一字节 表示呼叫类型,默认0x01 点餐加菜,0x02 添加茶水，0x04呼叫结账，0x05 其他服务
+        sendMsg[7]= (byte) 0x00;     //这个字节+上后一字节表示 对应的桌号,这个字节用于保存A-Z的16进制asc码
+        String tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
+        if (Constant.isNumeric(tableName)) {
+            sendMsg[8]= (byte) Integer.parseInt(DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0)));//这个字节保存对应的数值
+        }else{
+            char[] a = tableName.toCharArray();
+            sendMsg[7]= (byte)a[0];//这个字节+上后一字节表示 对应的桌号,这个字节用于保存A-Z的16进制asc码
+            sendMsg[8]= (byte) Integer.parseInt(DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0)).substring(1));//这个字节保存对应的数值
+        }
+
+        //多个手环处理
+        String[] watchArray = RememberUtil.getString(SPE_WATCH_ADD,"").split(",");
+        for(int i=0;i<watchArray.length;i++) {
+            sendMsg[9+i] = (byte) Integer.parseInt(watchArray[i]);  //手环地址,表示发给哪个手环
+        }
+//        sendMsg[9] = (byte) RememberUtil.getInt(SPE_WATCH_ADD, 16);  //手环地址,表示发给哪个手环
+
+        return sendMsg;
+    }
+
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onBootRestartEvent(OnBootRestartEvent event) {
@@ -843,6 +1011,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                 | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
                 | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
+
 
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -985,11 +1154,18 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         long deskId = RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID, Constant.DESK_ID_DEF_DEFAULT);
         if (mTableTypes == null || mTableTypes.size() == 0 || deskId == Constant.DESK_ID_DEF_DEFAULT) {
             if (mDeskTv != null) {
+                //add by Randy
+                mDeskTv.setText(this.getResources().getString(R.string.connect_waiter_choice_desk));
                 mDeskTv.setVisibility(View.VISIBLE);
             }
         } else {
-            if (mDeskTv != null) {
-                mDeskTv.setVisibility(View.GONE);
+            if (mDeskTv != null ) {
+                if(ifBleConfig) {
+                    mDeskTv.setVisibility(View.GONE);
+                }else{
+                    mDeskTv.setText(this.getResources().getString(R.string.ble_dongle_notconfig));
+                    mDeskTv.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -1023,11 +1199,13 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
+//        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+//        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -1061,5 +1239,65 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 
 
 
+    //add by Randy for BLE Dongle
+    @Subscribe
+    public void onFindServiceEvent(OnFindServiceEvent event) {
+        Toast.makeText(this.mContext,"已连接到Dongle设备，设备名为：" + event.getGatt().getDevice().getName() + ",设备地址为" + event.getGatt().getDevice().getAddress(),Toast.LENGTH_LONG).show();
+        if(mDeskTv!=null && mDeskTv.getVisibility()==View.VISIBLE ){
+            if(mDeskTv.getText().equals(this.getResources().getString(R.string.ble_dongle_disconnect))
+                    || mDeskTv.getText().equals(this.getResources().getString(R.string.ble_dongle_notfound))){
+                mDeskTv.setVisibility(View.GONE);
+            }
+        }
+        ifBleConnect = true;
+    }
 
+    @Subscribe
+    public void onNotifyEvent(OnNotifyEvent event) {
+//        BleLog.e("onNotifyEvent:"+event.getBundle().getValue());
+//        Toast.makeText(this.mContext,"收到Dongle设备发来的内容"+event.getBundle().getValue(),Toast.LENGTH_LONG).show();
+//        receive_num++;
+//        mReceiveNum.setText("接收到数据的次数: "+receive_num+"");
+//
+//        notify_value++;
+//
+//        if(notify_value==85  ){
+//            notify_value=0;
+//            mBuilder.setLength(0);
+//        }
+//
+//        mBuilder.append(event.getBundle().getValue() + "    ");
+//        mNotifyBackTv.setText(mBuilder);
+//        if (event.getBundle().getValue().equals(FT_NUM)){
+//            mFtNotifyTv.setText("台号200翻台成功" +"(+"+ (++ft_num)+")");
+//        }else if(event.getBundle().getValue().equals(DC_NUM)){
+//            mDcNotifyTv.setText("台号200点菜成功" +"(+"+ (++dc_num)+")");
+//        } else {
+//            mOddNotifyTv.setVisibility(View.VISIBLE);
+//            mOddNotifyTv.setText("收到了一个不属于翻台也不是点菜的码值:"+event.getBundle().getValue());
+//        }
+    }
+
+    @Subscribe
+    public void onDisconnectEvent(OnDisconnectEvent event) {
+        if(mDeskTv!=null && mDeskTv.getVisibility()==View.GONE
+                ||mDeskTv.getText().equals(this.getResources().getString(R.string.ble_dongle_notfound)) ) {
+            mDeskTv.setText(this.getResources().getString(R.string.ble_dongle_disconnect));
+            mDeskTv.setVisibility(View.VISIBLE);
+        }
+        ifBleConnect = false;
+//
+    }
+
+    //add by Randy 增加未扫描到设备的提示
+    @Subscribe
+    public void onNoDeviceFoundEvent(OnNoDeviceFoundEvent event) {
+        if(mDeskTv!=null && mDeskTv.getVisibility()==View.GONE) {
+            mDeskTv.setText(this.getResources().getString(R.string.ble_dongle_notfound));
+            mDeskTv.setVisibility(View.VISIBLE);
+        }
+        ifBleConnect = false;
+    }
+
+    //add by Randy
 }

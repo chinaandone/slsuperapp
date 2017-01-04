@@ -98,7 +98,7 @@ public class SelectTableFragment extends Fragment {
                 QuickUtils.log("mTables.get(position).getId()"+mTables.get(position).getId()+"\nOrderManager.getInstance(getActivity()).getTableId()="+OrderManager.getInstance(getActivity()).getTableId()+"\npreItem="+preItem);
                 if((mTables.get(position).getId()!=preItem&&mTables.get(position).getId()!=OrderManager.getInstance(getActivity()).getTableId())||(preItem!=-1&&mTables.get(position).getId()!=preItem)){
                     preItem=mTables.get(position).getId();
-                    mOnTableAdapterListener.onTableSelected(mTables.get(position).getId());
+                    mOnTableAdapterListener.onTableSelected(mTables.get(position).getId(),mTables.get(position).getName());
                 }
             }
         });
@@ -113,6 +113,6 @@ public class SelectTableFragment extends Fragment {
 
     public interface OnTableAdapterListener {
 
-        void onTableSelected(long tableId);
+        void onTableSelected(long tableId,String tableName);
     }
 }

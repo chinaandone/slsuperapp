@@ -63,7 +63,7 @@ public class RememberUtil {
         mSharedPrefsName = sharedPrefsName;
 
         // Read from shared prefs
-        SharedPreferences prefs = getSharedPreferences();
+        SharedPreferences prefs =  getSharedPreferences();
         mData = new ConcurrentHashMap<String,Object>();
         mData.putAll(prefs.getAll());
         mWasInitialized = true;

@@ -228,4 +228,24 @@ public class DatabaseHelper {
         }
         return tables;
     }
+
+    //add by zwd for get tablename
+    public String getTableName(Long tableId){
+        Cursor cursor = mSQLiteDatabase.query(TableColumns.TABLE_NAME,
+                new String[]{
+                        TableColumns._ID,
+                        TableColumns.TYPE_ID,
+                        TableColumns.NAME,
+                },
+                TableColumns._ID + "=?", new String[]{String.valueOf
+                        (tableId)}, null, null,null);
+
+        if (cursor == null) {
+            return null;
+        }else{
+            cursor.moveToNext();
+            return cursor.getString(cursor.getColumnIndexOrThrow(TableColumns.NAME));
+        }
+
+    }
 }

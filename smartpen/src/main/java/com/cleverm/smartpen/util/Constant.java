@@ -3,6 +3,8 @@ package com.cleverm.smartpen.util;
 import android.os.Environment;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by 95 on 2015/12/22.
@@ -460,6 +462,17 @@ public class Constant {
     public static  String NEW_FLAG="default";
 
     public static int VIDEO_WANGWANG_ID=235;
+
+
+    //add by Randy for check if String is number
+    public static boolean isNumeric(String str){
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(str);
+        if( !isNum.matches() ){
+            return false;
+        }
+        return true;
+    }
 
 
 }

@@ -2,7 +2,6 @@ package com.cleverm.smartpen.app;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,6 +74,9 @@ public abstract class BaseSelectTableActivity extends BaseActivity implements Vi
     public static final String SELECTEDTABLEID = "SelectedTableId";
     protected TablePagerAdapter mTablePagerAdapter;
     protected long mSelectedTableId;
+    ////add by zwd for record tablename for call service
+    protected String mSelectedTableName;
+
     private TabWidget mTableTabHost;
     private ViewPager mTableViewPager;
     private List<TableType> mTableTypes;

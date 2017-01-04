@@ -11,7 +11,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.zip.CRC32;
 
 import okhttp3.Call;
 
@@ -110,7 +109,51 @@ public class ServiceUtil {
                 });
     }
 
+    //add by Randy for Ble Call Service
+    public void getBleSetInfo(String orgID,String tableID,final JsonInterface jsonInterface){
+        String url = Constant.DDP_URL+"/api/api/v10/watch/setinfo.do";
+//        String url = "http://192.168.0.102:8081"+"/api/v10/watch/setinfo.do";
+        OkHttpUtils.get()
+                .url(url)
+                .addParams("orgId", orgID)
+                .addParams("tableId", tableID)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        jsonInterface.onFail(e.getMessage());
+                    }
 
+                    @Override
+                    public void onResponse(String response) {
+                        jsonInterface.onSucced(response.toString());
+                    }
+                });
+    }
+
+    //add by Randy for Ble heartBeat
+    public void updateHeartBeat(String orgID,String tableID,String versioncode,String versionname,final JsonInterface jsonInterface){
+        String url = Constant.DDP_URL+"/api/api/v10/heartbeat/beatinfo.do";
+//        String url = "http://192.168.0.102:8081"+"/api/v10/heartbeat/beatinfo.do";
+        OkHttpUtils.get()
+                .url(url)
+                .addParams("orgId", orgID)
+                .addParams("tableId", tableID)
+                .addParams("versioncode",versioncode)
+                .addParams("versionname",versionname)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        jsonInterface.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        jsonInterface.onSucced(response.toString());
+                    }
+                });
+    }
 
 
 }
