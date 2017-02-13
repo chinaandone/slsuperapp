@@ -1,6 +1,5 @@
 package com.cleverm.smartpen.application;
 
-import android.app.Application;
 import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +38,8 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 
+import cn.wch.ch34xuartdriver.CH34xUARTDriver;
+
 /**
  * Created by 95 on 2016/1/13.
  */
@@ -52,6 +53,8 @@ public class SmartPenApplication extends MultiDexApplication {
 
     public static final String PATH= Environment.getExternalStorageDirectory().getPath()+"/logFile/log";
     private static final String PREFS_NAME = "com.Clever.myapp";
+
+    public static CH34xUARTDriver usbdriver;
 
     /**
      * 是否是无笔版本

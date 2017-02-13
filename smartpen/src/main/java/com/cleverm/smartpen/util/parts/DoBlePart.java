@@ -22,7 +22,6 @@ import com.bleframe.library.log.BleLog;
 import com.bleframe.library.profile.SmartPenProfile;
 import com.bleframe.library.util.BleUtils;
 import com.bleframe.library.util.TimerPlanUtil;
-import com.cleverm.smartpen.R;
 import com.cleverm.smartpen.application.SmartPenApplication;
 import com.cleverm.smartpen.ui.windows.FixSplashScreenView;
 import com.cleverm.smartpen.ui.windows.MyWindowManager;
@@ -52,6 +51,9 @@ public class DoBlePart {
     private static final String sPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/muyeoid";
     private static final String sDefaultOid = "001";
     private static final String sPadMode="X10H";
+
+    private static final String sPadMode1 = "X10";
+    private static final String sPadMode2 = "SPAD,ksd";
 
     private static boolean sSubTwenty=true;
     private static boolean sSubTen=true;
@@ -197,6 +199,22 @@ public class DoBlePart {
         return true;
     }
 
+    //add by zwd for USBDongle pad Charge
+    public static boolean padForUSBDongle(){
+        String padMode = getPadMode();
+        String containModes[]= sPadMode2.split(",");
+        for(int i=0;i<containModes.length;i++){
+            if(padMode.contains(containModes[i])){
+                return true;
+            }
+        }
+        if(padMode.contains(sPadMode1) ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    //
     /**
      * pad型号
      * @return

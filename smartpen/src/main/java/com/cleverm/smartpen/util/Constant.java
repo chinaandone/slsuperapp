@@ -267,8 +267,14 @@ public class Constant {
     public static final int WEIXIN_PAY_SMS=18;//微信支付
     public static final int ALI_PAY_SMS=19;//支付宝支付
     public static final int OUT_OF_CHARGING=23;//充电宝断开
+    //手环对应的服务码
+    public static final int CASH_PAY_TO433 = 0x06; //现金结账
+    public static final int UNION_CARD_PAY_TO433 = 0x07; //银行卡结账
+    public static final int ALI_PAY__TO433 = 0x08; //支付宝结账
+    public static final int WEIXIN_PAY_TO433 = 0x09; //微信结账
 
     public static final int TEMPLATEID_DELAY = 30000;
+
 
 
     public static final String WEATHER = "http://www.weather.com.cn/weather/101020100.shtml";

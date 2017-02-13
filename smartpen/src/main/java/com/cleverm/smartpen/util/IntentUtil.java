@@ -35,6 +35,8 @@ import com.cleverm.smartpen.util.service.ApolloUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 
 /**
@@ -582,7 +584,15 @@ public class IntentUtil {
         Intent intent = IntentUtil.mainActivityIntent(activity);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         activity.startActivity(intent);
-        activity.finish();
+        if(activity instanceof SimpleAppActivity){
+//            Toast.makeText(activity,"main activity back from stop",Toast.LENGTH_LONG).show();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+
+            Log.e("RST", sdf.format(Calendar.getInstance().getTime())+"main activity back from stop.....................");
+
+        }else {
+            activity.finish();
+        }
         Constant.NEW_FLAG = VideoActivity.class.getSimpleName();
     }
 
@@ -592,8 +602,10 @@ public class IntentUtil {
         try {
             Method forceStopPackage = am.getClass().getDeclaredMethod("forceStopPackage", String.class);
             forceStopPackage.setAccessible(true);
-            forceStopPackage.invoke(am, "com.qiyi.video.pad");
+//            forceStopPackage.invoke(am, "com.qiyi.video.pad");
+            forceStopPackage.invoke(am, "com.gameley.runningman3.baidu1");
         } catch (Exception e) {
+
         }
 
     }

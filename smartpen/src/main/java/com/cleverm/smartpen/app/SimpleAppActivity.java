@@ -3,6 +3,7 @@ package com.cleverm.smartpen.app;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -43,6 +44,7 @@ import com.cleverm.smartpen.pushtable.NetworkMonitor;
 import com.cleverm.smartpen.ui.FullScreenVideoView;
 import com.cleverm.smartpen.ui.LongPressView;
 import com.cleverm.smartpen.util.BleOperation;
+import com.cleverm.smartpen.util.CRC8;
 import com.cleverm.smartpen.util.Constant;
 import com.cleverm.smartpen.util.DownloadUtil;
 import com.cleverm.smartpen.util.IntentUtil;
@@ -69,16 +71,19 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 
 import java.lang.ref.WeakReference;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import cn.wch.ch34xuartdriver.CH34xUARTDriver;
+
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.ALI_PAY;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.CASH_PAY;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.FOOD;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.OTHER;
-import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.PAY;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.UNION_CARD_PAY;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.WATER;
 import static com.cleverm.smartpen.app.SimpleAppActivity.MessageCode.WEIXIN_PAY;
@@ -100,6 +105,9 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     Dispatch mDispatch;
     private static final String TAG = SimpleAppActivity.class.getSimpleName()+"：";
 
+//    public static final String TAG = "cn.wch.wchusbdriver";
+    private static final String ACTION_USB_PERMISSION = "cn.wch.wchusbdriver.USB_PERMISSION";
+
     //add by Randy for Ble Dongle
     private boolean ifBleConnect = true;
     private boolean ifBleConfig = true;
@@ -107,7 +115,21 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     public static final String SPE_WATCH_ADD = "Watchadd";
     public static final String SPE_BLE_MAC = "BLEmac";
     private final Timer timer = new Timer();
+    private final Timer btimer = new Timer();
     private TimerTask ttask = null;
+    private TimerTask btask = null;
+    private boolean isOpen = false;
+//    private Handler handler;
+
+    public int baudRate = 115200;
+//    public byte baudRate_byte;
+    public byte stopBit = 1;
+    public byte dataBit = 8;
+    public byte parity = 0;
+    public byte flowControl =0;
+
+    //到后台后停留的时长
+    private int BackStopTime=60*1000*10;
 
     FullScreenVideoView mVideoFsvv;
     ImageView mCallFood;
@@ -485,13 +507,13 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         initListener();
         initData();
         //add by Randy for ble call services start
-        if(RememberUtil.getString(SPE_BLE_MAC,"").equals("")){
-            ifBleConfig = false;
-        }else {
-            BleOperation.openBLEPen(this, RememberUtil.getString(SPE_BLE_MAC, ""));
-        }
+        initDongle();
         //add by Randy for ble call services end
-
+//        handler = new Handler() {
+//            public void handleMessage(Message msg) {
+//                Toast.makeText(SimpleAppActivity.this,(String) msg.obj,Toast.LENGTH_LONG).show();
+//            }
+//        };
 //        UpdateTableUtil.getInstance().goNewTable();
     }
 
@@ -632,6 +654,75 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    private void initDongle(){
+        //X10 and X10H 利用串口处理,不使用蓝牙
+        if(DoBlePart.padForUSBDongle()) {
+            //
+//            Toast.makeText(this,"X10 Serial",Toast.LENGTH_LONG).show();
+//            String s = "X10 Serial..";
+//            mDeskTv.setText(s);
+            //启动配置USB Dongle
+            if (SmartPenApplication.usbdriver != null) {
+                SmartPenApplication.usbdriver.CloseDevice();
+                SmartPenApplication.usbdriver = null;
+                SmartPenApplication.usbdriver = new CH34xUARTDriver(
+                        (UsbManager) getSystemService(Context.USB_SERVICE), this,
+                        ACTION_USB_PERMISSION);
+            } else {
+                SmartPenApplication.usbdriver = new CH34xUARTDriver(
+                        (UsbManager) getSystemService(Context.USB_SERVICE), this,
+                        ACTION_USB_PERMISSION);
+            }
+                isOpen = false;
+                if (!SmartPenApplication.usbdriver.isConnected()) {
+                    if (!SmartPenApplication.usbdriver.ResumeUsbList())// ResumeUsbList方法用于枚举CH34X设备以及打开相关设备
+                    {
+                        Toast.makeText(SimpleAppActivity.this, "打开设备失败!请检查设备是否连接.",
+                                Toast.LENGTH_SHORT).show();
+                        SmartPenApplication.usbdriver.CloseDevice();
+
+                    } else {
+                        if (SmartPenApplication.usbdriver != null){
+                            if (!SmartPenApplication.usbdriver.UartInit()) {//对串口设备进行初始化操作
+                                Toast.makeText(SimpleAppActivity.this, "设备初始化失败!",
+                                        Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SimpleAppActivity.this, "打开" +
+                                                "设备失败!",
+                                        Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            Toast.makeText(SimpleAppActivity.this, "打开设备成功!",
+                                    Toast.LENGTH_SHORT).show();
+                            isOpen = true;
+                        }
+//                    new readThread().start();//开启读线程读取串口接收的数据
+                    }
+                    if (SmartPenApplication.usbdriver.isConnected()) {
+                        if (SmartPenApplication.usbdriver.SetConfig(baudRate, dataBit, stopBit, parity,//配置串口波特率，函数说明可参照编程手册
+                                flowControl)) {
+                            Toast.makeText(SimpleAppActivity.this, "串口设置成功!",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(SimpleAppActivity.this, "串口设置失败!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    SmartPenApplication.usbdriver.CloseDevice();
+                    isOpen = false;
+                }
+                Log.v("MSG HEX STRING IS ", "X10 Serial........................................................................................");
+
+                }else{
+
+                    if (RememberUtil.getString(SPE_BLE_MAC, "").equals("")) {
+                        ifBleConfig = false;
+                    } else {
+                        BleOperation.openBLEPen(this, RememberUtil.getString(SPE_BLE_MAC, ""));
+                    }
+                }
+
+    }
     private void doTimerClock() {
         //VideoPCUtil.getInstance().start(this);//PC Video
         new InformationOnline().start(this, InformationOnline.Time.REBOOT);//Clock
@@ -673,7 +764,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.iv_call_pay:
                 handlerPayMessage();
-                sendCallService(PAY);
+//                sendCallService(PAY);
                 doStatistic(StatisticsUtil.CALL_PAY, StatisticsUtil.CALL_PAY_DESC);
                 break;
 
@@ -745,24 +836,28 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             case R.id.iv_levitate_pay_ali:
                 hidePayLevitate();
                 handlerMessage(ALI_PAY);
+                sendCallService(ALI_PAY);
                 doStatistic(StatisticsUtil.CALL_PAY, StatisticsUtil.CALL_PAY_DESC + "------" + StatisticsUtil.CALL_PAY_ALIPAY_DESC, StatisticsUtil.CALL_PAY_ALIPAY);
                 break;
 
             case R.id.iv_levitate_pay_weixin:
                 hidePayLevitate();
                 handlerMessage(WEIXIN_PAY);
+                sendCallService(WEIXIN_PAY);
                 doStatistic(StatisticsUtil.CALL_PAY, StatisticsUtil.CALL_PAY_DESC + "------" + StatisticsUtil.CALL_PAY_WEIXIN_DESC, StatisticsUtil.CALL_PAY_WEIXIN);
                 break;
 
             case R.id.iv_levitate_pay_unioncard:
                 hidePayLevitate();
                 handlerMessage(UNION_CARD_PAY);
+                sendCallService(UNION_CARD_PAY);
                 doStatistic(StatisticsUtil.CALL_PAY, StatisticsUtil.CALL_PAY_DESC + "------" + StatisticsUtil.CALL_PAY_CARD_DESC, StatisticsUtil.CALL_PAY_CARD);
                 break;
 
             case R.id.iv_levitate_pay_cash:
                 hidePayLevitate();
                 handlerMessage(CASH_PAY);
+                sendCallService(CASH_PAY);
                 doStatistic(StatisticsUtil.CALL_PAY, StatisticsUtil.CALL_PAY_DESC + "------" + StatisticsUtil.CALL_PAY_CASH_DESC, StatisticsUtil.CALL_PAY_CASH);
                 break;
 
@@ -927,17 +1022,17 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case UNION_CARD_PAY:
-                templateID = Constant.UNION_CARD_PAY_SMS;
+                templateID = Constant.UNION_CARD_PAY_TO433;
                 break;
 
             case CASH_PAY:
-                templateID = Constant.CASH_PAY_SMS;
+                templateID = Constant.CASH_PAY_TO433;
                 break;
             case WEIXIN_PAY:
-                templateID = Constant.WEIXIN_PAY_SMS;
+                templateID = Constant.WEIXIN_PAY_TO433;
                 break;
             case ALI_PAY:
-                templateID = Constant.ALI_PAY_SMS;
+                templateID = Constant.ALI_PAY__TO433;
                 break;
         }
         sendMsg[6]= (byte) templateID;
@@ -952,17 +1047,61 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         }
         Log.v("MSG HEX STRING IS ",tmpstr);
 //        Toast.makeText(this.mContext,tmpstr,Toast.LENGTH_LONG).show();
-        String UUID_WRITE_CHARACTERISTIC= "0000fff3-0000-1000-8000-00805f9b34fb";
-        BleManager.getInstance().send(SmartPenProfile.UUID_MAIN_SERVICE, UUID_WRITE_CHARACTERISTIC, null,
-                sendMsg, BleConfig.WriteReadAttribute.CHARACTERISTIC);
+        //X10 and X10H 的设备利用串口来进行
+        if(DoBlePart.padForUSBDongle()){
+            //1.增加CRC校验
+            byte[] ssendMsg = new byte[23];
+            ssendMsg[0]=(byte)0xfd;
+            ssendMsg[1]=(byte)0x14;
+            for(int i=0;i<sendMsg.length;i++){
+                ssendMsg[i+2]=sendMsg[i];
+            }
+            ssendMsg[22]= CRC8.calcCrc8(ssendMsg,1,ssendMsg.length-2);
+
+            String tmpstr1 = "";
+            String s1 = "";
+            for(int i=0;i<ssendMsg.length;i++){
+                s1=Integer.toHexString(ssendMsg[i] & 0x00ff);
+                if(s1.length()==1){
+                    s1="0"+s1;
+                }
+                tmpstr1 = tmpstr1 + s1 + " ";
+            }
+            Log.v("MSG HEX STRING IS ",tmpstr1);
+//            Toast.makeText(SimpleAppActivity.this,tmpstr1,
+//                    Toast.LENGTH_LONG).show();
+            int retval = SmartPenApplication.usbdriver.WriteData(ssendMsg, ssendMsg.length);//写数据，第一个参数为需要发送的字节数组，第二个参数为需要发送的字节长度，返回实际发送的字节长度
+            if (retval < 0){
+                Toast.makeText(SimpleAppActivity.this, "Dongle连接写数据失败",
+                        Toast.LENGTH_LONG).show();
+                if(SmartPenApplication.usbdriver.isConnected()){
+                    SmartPenApplication.usbdriver.CloseDevice();
+                    isOpen = false;
+                    Toast.makeText(SimpleAppActivity.this, "Dongle连接关闭,重新连接",
+                            Toast.LENGTH_LONG).show();
+                }else{
+                    SmartPenApplication.usbdriver.CloseDevice();
+                    isOpen = false;
+                    Toast.makeText(SimpleAppActivity.this, "Dongle重新连接",
+                            Toast.LENGTH_LONG).show();
+                }
+                initDongle();
+
+            }
+        }else {
+            //其他的设备利用蓝牙处理
+            String UUID_WRITE_CHARACTERISTIC = "0000fff3-0000-1000-8000-00805f9b34fb";
+            BleManager.getInstance().send(SmartPenProfile.UUID_MAIN_SERVICE, UUID_WRITE_CHARACTERISTIC, null,
+                    sendMsg, BleConfig.WriteReadAttribute.CHARACTERISTIC);
 //        BleManager.getInstance().send();
+        }
     }
     private byte[] initSendMsg(){
         byte[] sendMsg = new byte[20];
         for(int i=0;i<20;i++){
             sendMsg[i]=(byte)0xff;
         }
-        sendMsg[0]= (byte) 0x1f;     //帧类型
+        sendMsg[0]= (byte) 0x1f;     //帧类型1f呼叫服务,PAD侧的用fe标识
         sendMsg[1]= (byte) RememberUtil.getInt(SPE_DONGLE_ADD,16);  //源地址
         sendMsg[2]= (byte) 0x01;     //目的地址，目前固定用01
         sendMsg[3]= (byte) 0x01;     //序列号
@@ -1160,11 +1299,15 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             }
         } else {
             if (mDeskTv != null ) {
-                if(ifBleConfig) {
-                    mDeskTv.setVisibility(View.GONE);
+                if(!DoBlePart.padForUSBDongle()){
+                    if (ifBleConfig) {
+                        mDeskTv.setVisibility(View.GONE);
+                    } else {
+                        mDeskTv.setText(this.getResources().getString(R.string.ble_dongle_notconfig));
+                        mDeskTv.setVisibility(View.VISIBLE);
+                    }
                 }else{
-                    mDeskTv.setText(this.getResources().getString(R.string.ble_dongle_notconfig));
-                    mDeskTv.setVisibility(View.VISIBLE);
+                    mDeskTv.setVisibility(View.GONE);
                 }
             }
         }
@@ -1185,6 +1328,8 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         unLockScreen();
         whetherDeskInfo();
         //TODO 屏蔽关机时间后的一次视频界面
+//        Toast.makeText(SimpleAppActivity.this,"Connect Resume",Toast.LENGTH_LONG).show();
+        initDongle();
         doStatistic(StatisticsUtil.BACK_VIDEO, StatisticsUtil.BACK_VIDEO_DESC);
     }
 
@@ -1205,6 +1350,9 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
+//        Toast.makeText(this.mContext,"back to stop",Toast.LENGTH_LONG).show();
+        doSuccessFinish();
+
 //        EventBus.getDefault().unregister(this);
     }
 
@@ -1300,4 +1448,77 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     }
 
     //add by Randy
+
+
+//    private class readThread extends Thread {
+//
+//        public void run() {
+//
+//            byte[] buffer = new byte[64];
+//
+//            while (true) {
+//                Message msg = Message.obtain();
+//                if (!isOpen) {
+//                    break;
+//                }
+//                int length = SmartPenApplication.usbdriver.ReadData(buffer, 64);
+//                if (length > 0) {
+//                    String recv = toHexString(buffer, length);
+//                    msg.obj = recv;
+//                    handler.sendMessage(msg);
+//                }
+//            }
+//        }
+//    }
+
+//    private String toHexString(byte[] arg, int length) {
+//        String result = new String();
+//        if (arg != null) {
+//            for (int i = 0; i < length; i++) {
+//                result = result
+//                        + (Integer.toHexString(
+//                        arg[i] < 0 ? arg[i] + 256 : arg[i]).length() == 1 ? "0"
+//                        + Integer.toHexString(arg[i] < 0 ? arg[i] + 256
+//                        : arg[i])
+//                        : Integer.toHexString(arg[i] < 0 ? arg[i] + 256
+//                        : arg[i])) + " ";
+//            }
+//            return result;
+//        }
+//        return "";
+//    }
+
+    //游戏定时返回
+    private void doSuccessFinish() {
+//        new WeakHandler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+////                finish();
+//                onBack();
+//            }
+//        },BackStopTime);
+        btask = new TimerTask() {
+            @Override
+            public void run() {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+                Log.e("RST", sdf.format(Calendar.getInstance().getTime())+"timertask backrun.....................");
+                onBack();
+            }
+        };
+        btimer.schedule(btask,BackStopTime);
+
+//        Toast.makeText(this.mContext,"doSuccessFinish",Toast.LENGTH_LONG).show();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
+        Log.e("RST", sdf.format(Calendar.getInstance().getTime())+"doSuccessFinish.....................");
+    }
+
+    private void onBack() {
+//        IntentUtil.goBackToVideoActivity(SimpleAppActivity.this);
+        Intent intent = new Intent(SimpleAppActivity.this, SimpleAppActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        SimpleAppActivity.this.startActivity(intent);
+//        btimer.cancel();
+    }
+
+
 }

@@ -15,9 +15,7 @@ import android.widget.LinearLayout;
 
 import com.cleverm.smartpen.R;
 import com.cleverm.smartpen.bean.LuckyPrizeIdInfo;
-import com.cleverm.smartpen.bean.LuckyPrizeInfo;
 import com.cleverm.smartpen.bean.event.OnLuckyEvent;
-import com.cleverm.smartpen.util.IntentUtil;
 import com.cleverm.smartpen.util.LuckyDrawUtil;
 import com.cleverm.smartpen.util.QuickUtils;
 import com.cleverm.smartpen.util.StatisticsUtil;
@@ -27,9 +25,6 @@ import com.cleverm.smartpen.util.common.EasyCommonInfo;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * Created by xiong,An android project Engineer,on 1/9/2016.
@@ -172,6 +167,12 @@ public class LuckyDetailActivity extends BaseActivity implements View.OnClickLis
                 QuickUtils.doStatistic(StatisticsUtil.APP_PRIZE_RECEIVEGOODS,StatisticsUtil.APP_PRIZE_RECEIVEGOODS_DESC);
                 if(checkPhone()){
                     LuckyDrawUtil.getInstance().inputphone(mLuckyDetailPhoneEd.getText().toString().trim().replaceAll(" ",""),String.valueOf(oldInfo.getPrizeGetId()));
+                    //add by zwd for detail info in pad
+                    Intent intent = new Intent(this,moneyActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("initPage",2);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
                 break;
         }
