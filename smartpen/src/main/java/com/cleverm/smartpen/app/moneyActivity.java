@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.KeyEvent;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -22,7 +24,9 @@ public class moneyActivity extends Activity {
     private ProgressDialog mProgressDialog;
     private WebView webView;
     private String loadUrl = "http://120.77.10.145/cmbc/index.html";
-    private int DelayTime=60*1000*15;
+    private int DelayTime=60*1000;
+    public static final int TIME = 60000;
+    public static final int GOBack = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +81,7 @@ public class moneyActivity extends Activity {
                 return super.shouldOverrideKeyEvent(view, event);
             }
         });
-        doSuccessFinish();
+//        doSuccessFinish();
 
     }
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -102,4 +106,22 @@ public class moneyActivity extends Activity {
         },DelayTime);
     }
 
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case GOBack: {
+                    onBack();
+                    break;
+                }
+            }
+        }
+    };
+    @Override
+    public void onUserInteraction() {
+        mHandler.removeMessages(GOBack);
+        mHandler.sendEmptyMessageDelayed(GOBack, TIME);
+        super.onUserInteraction();
+
+    }
 }

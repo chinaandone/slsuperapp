@@ -1351,7 +1351,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     protected void onStop() {
         super.onStop();
 //        Toast.makeText(this.mContext,"back to stop",Toast.LENGTH_LONG).show();
-        doSuccessFinish();
+        backFromThirdApp();
 
 //        EventBus.getDefault().unregister(this);
     }
@@ -1489,7 +1489,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 //    }
 
     //游戏定时返回
-    private void doSuccessFinish() {
+    private void backFromThirdApp() {
 //        new WeakHandler().postDelayed(new Runnable() {
 //            @Override
 //            public void run() {
