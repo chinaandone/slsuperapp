@@ -28,15 +28,22 @@ public class moneyActivity extends Activity {
     public static final int TIME = 60000;
     public static final int GOBack = 200;
 
+    public static final String gmCruzeUrl= "http://e.cn.miaozhen.com/r/k=2040258&p=75fWP&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&ro=sm&vo=385796fdd&vr=2&o=http%3A%2F%2Fwww.mychevy.com.cn%2Fmychevy_activity%2F1004%3Futm_source%3Dxcr%26utm_medium%3Dxcr%26utm_term%3DSP-CH1700154_HS-201703323_MOB228_72908728%26utm_campaign%3Dxcr";
+    public static final String gmCruzeGameUrl = "http://120.77.10.145/gmgame/index.html";
+    public static final String cmbcIndexUrl = "http://120.77.10.145/cmbc/index.html";
+    public static final String cmbcApplyUrl = "http://120.77.10.145/cmbc/apply.html";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iv_go_money);
         Bundle bundle = this.getIntent().getExtras();
         if(bundle!=null){
-            if(bundle.getInt("initPage")==2) {
-                loadUrl = "http://120.77.10.145/cmbc/apply.html";
-            }
+//            if(bundle.getInt("initPage")==2) {
+//                loadUrl = "http://120.77.10.145/cmbc/apply.html";
+//            }
+//
+            loadUrl=bundle.getString("url");
         }
         initView();
         initWebSetting();
@@ -54,6 +61,8 @@ public class moneyActivity extends Activity {
         // 启用WebView对JavaScript的支持
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setCacheMode(WebSettings.LOAD_NO_CACHE);
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setDatabaseEnabled(true);
 
         // 触摸焦点起作用（如果不设置，则在点击网页文本输入框时，不能弹出软键盘及不响应其他的一些事件）
         webView.requestFocus();
@@ -63,7 +72,9 @@ public class moneyActivity extends Activity {
                 //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
                 webView.loadUrl(url);
                 return true;
+//                return false;
             }
+
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
@@ -74,6 +85,7 @@ public class moneyActivity extends Activity {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 mProgressDialog.hide();
+                mHandler.sendEmptyMessageDelayed(GOBack, TIME);
             }
 
             @Override

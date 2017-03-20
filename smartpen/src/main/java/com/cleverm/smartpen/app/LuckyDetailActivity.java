@@ -168,9 +168,17 @@ public class LuckyDetailActivity extends BaseActivity implements View.OnClickLis
                 if(checkPhone()){
                     LuckyDrawUtil.getInstance().inputphone(mLuckyDetailPhoneEd.getText().toString().trim().replaceAll(" ",""),String.valueOf(oldInfo.getPrizeGetId()));
                     //add by zwd for detail info in pad
+                    //LuckyPrizeIdInfo luckyPrizeIdInfo = (LuckyPrizeIdInfo)this.getIntent().getSerializableExtra(LuckyDetailActivity.INTENT_KEY);
                     Intent intent = new Intent(this,moneyActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putInt("initPage",2);
+                    bundle.putInt("initPage", 2);
+                    if(oldInfo.getPhonePrizeType()==2) {
+                        bundle.putString("url", moneyActivity.cmbcApplyUrl);
+                    }else if(oldInfo.getPhonePrizeType()==3){
+                        bundle.putString("url", moneyActivity.gmCruzeUrl);
+                    }else{
+                        bundle.putString("url", moneyActivity.gmCruzeUrl);
+                    }
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }

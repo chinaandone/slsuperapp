@@ -3,7 +3,6 @@ package com.cleverm.smartpen.util;
 import android.app.Application;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.cleverm.smartpen.app.SelectTableActivity;
 import com.cleverm.smartpen.application.SmartPenApplication;
@@ -94,6 +93,8 @@ public class StatisticsUtil {
     public static final String SETTING_DESC="设置";
     public static final int   CALL_GET_CARD =37;//办卡有礼
     public static final String CALL_GET_CARD_DESC="办卡有礼";
+    public static final int   CALL_GET_CAR=38;//通用汽车
+    public static final String CALL_GET_CAR_DESC="通用汽车";
     public static final int   UN_KNOW =100;//暂时没有加进来功能
     public static final String UN_KNOW_DESC="预留功能";
 

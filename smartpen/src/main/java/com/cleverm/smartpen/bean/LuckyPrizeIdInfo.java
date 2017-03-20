@@ -27,6 +27,10 @@ public class LuckyPrizeIdInfo implements Serializable {
 
     private int type;
 
+    private int phone_prize_type;
+
+    private int phonePrizeType;
+
     public int getId() {
         return id;
     }
@@ -81,5 +85,21 @@ public class LuckyPrizeIdInfo implements Serializable {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public int getPhone_prize_type() {
+        return phone_prize_type;
+    }
+
+    public void setPhone_prize_type(int phone_prize_type) {
+        this.phone_prize_type = phone_prize_type;
+    }
+
+    public int getPhonePrizeType() {
+        return phonePrizeType;
+    }
+
+    public void setPhonePrizeType(int phonePrizeType) {
+        this.phonePrizeType = phonePrizeType;
     }
 }

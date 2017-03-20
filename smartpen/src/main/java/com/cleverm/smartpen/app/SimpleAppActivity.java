@@ -161,6 +161,9 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 
     ImageView mAdAnim;
     private ImageView mGoMoney;
+    //add by randy for GM entrance
+    private ImageView mGMCruze;
+    private ImageView mGMCruzeAd;
 
 
     public enum MessageCode {
@@ -507,13 +510,9 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         initListener();
         initData();
         //add by Randy for ble call services start
-        initDongle();
+//        initDongle();
         //add by Randy for ble call services end
-//        handler = new Handler() {
-//            public void handleMessage(Message msg) {
-//                Toast.makeText(SimpleAppActivity.this,(String) msg.obj,Toast.LENGTH_LONG).show();
-//            }
-//        };
+//
 //        UpdateTableUtil.getInstance().goNewTable();
     }
 
@@ -537,6 +536,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         mNoticeImageIv = (ImageView) findViewById(R.id.ivNoticeImage);
         mNoticeTextRl = (TextView) findViewById(R.id.rlNoticeText);
 
+        mGMCruze = (ImageView) findViewById(R.id.iv_gm_cruze);
         mGoMoney = (ImageView) findViewById(R.id.iv_go_money);
         mGoShopIv = (ImageView) findViewById(R.id.iv_go_shop);
         mGoPlay = (ImageView) findViewById(R.id.iv_go_play);
@@ -556,6 +556,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         mRlOutOfCharging = (RelativeLayout) findViewById(R.id.rl_out_of_charging);
 
         mAdAnim=(ImageView)findViewById(R.id.iv_ad_anim);
+        mGMCruzeAd = (ImageView)findViewById(R.id.iv_ad_cruze);
 
     }
 
@@ -566,6 +567,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         mCallOther.setOnClickListener(this);
         mGoShopIv.setOnClickListener(this);
         mGoMoney.setOnClickListener(this);
+        mGMCruze.setOnClickListener(this);
         mGoPlay.setOnClickListener(this);
         mGoDiscountIv.setOnClickListener(this);
         mGoVideoIv.setOnClickListener(this);
@@ -579,6 +581,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                 return false;
             }
         });
+        mGMCruzeAd.setOnClickListener(this);
         findViewById(R.id.iv_levitate_pay_ali).setOnClickListener(this);
         findViewById(R.id.iv_levitate_pay_weixin).setOnClickListener(this);
         findViewById(R.id.iv_levitate_pay_unioncard).setOnClickListener(this);
@@ -797,9 +800,29 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             case R.id.iv_go_money://办卡有礼
                 doStatistic(StatisticsUtil.CALL_GET_CARD, StatisticsUtil.CALL_GET_CARD_DESC);
                 Intent intent = new Intent(this,moneyActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("url",moneyActivity.cmbcIndexUrl);
+                intent.putExtras(bundle);
                 startActivity(intent);
                 break;
-
+            case R.id.iv_gm_cruze://通用品牌的入口
+                doStatistic(StatisticsUtil.CALL_GET_CAR, StatisticsUtil.CALL_GET_CAR_DESC);
+                Intent intent1 = new Intent(this,moneyActivity.class);
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("url",moneyActivity.gmCruzeGameUrl);
+                intent1.putExtras(bundle1);
+                startActivity(intent1);
+                break;
+            case R.id.iv_ad_cruze://通用视频的角标入口
+                doStatistic(StatisticsUtil.CALL_GET_CAR, StatisticsUtil.CALL_GET_CAR_DESC);
+                Intent intentc = new Intent(this,moneyActivity.class);
+                Bundle bundlec = new Bundle();
+                bundlec.putString("url",moneyActivity.gmCruzeUrl);
+                intentc.putExtras(bundlec);
+                IntentUtil.clearRedundantActivity();
+                hidePayLevitate();
+                startActivity(intentc);
+                break;
 
             case R.id.iv_go_play://周边玩乐--统计代码在goToLauncherApp()
                 IntentUtil.goToLauncherApp(mContext, Constant.BAI_DU_PACKAGE_NAME, StatisticsUtil.APP_AROUNDPLAY, StatisticsUtil.APP_AROUNDPLAY_DESC);
@@ -1191,13 +1214,23 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         currentPlayVideo=event.getVideoId();
         if(event.getVideoId()==Constant.VIDEO_WANGWANG_ID){
             findViewById(R.id.iv_ad_detail).setVisibility(View.VISIBLE);
+            findViewById(R.id.iv_ad_cruze).setVisibility(View.INVISIBLE);
             mAdAnim.setBackgroundResource(R.drawable.frame_video_wangwang);
             AnimationDrawable mAdanimDrawable = (AnimationDrawable) mAdAnim.getBackground();
             if(mAdanimDrawable!=null){
                 mAdanimDrawable.start();
             }
+        }else if(event.getVideoId()==Constant.VIDEO_GM_CRUZE_ID) {
+            findViewById(R.id.iv_ad_cruze).setVisibility(View.VISIBLE);
+            findViewById(R.id.iv_ad_detail).setVisibility(View.INVISIBLE);
+//            mAdAnim.setBackgroundResource(R.drawable.frame_video_wangwang);
+//            AnimationDrawable mAdanimDrawable = (AnimationDrawable) mAdAnim.getBackground();
+//            if(mAdanimDrawable!=null){
+//                mAdanimDrawable.start();
+//            }
         }else{
             findViewById(R.id.iv_ad_detail).setVisibility(View.INVISIBLE);
+            findViewById(R.id.iv_ad_cruze).setVisibility(View.INVISIBLE);
             AnimationDrawable mAdanimDrawable = (AnimationDrawable) mAdAnim.getBackground();
             if(mAdanimDrawable!=null){
                 mAdanimDrawable.stop();

@@ -53,7 +53,13 @@
                         android:layout_height="wrap_content" />
 
                 </FrameLayout>
-
+                <ImageView
+                    android:id="@+id/iv_ad_cruze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|left"
+                    android:background="@mipmap/gm_cruze"
+                    android:visibility="gone"/>
 
 
 
@@ -297,7 +303,14 @@
             android:layout_weight="1.5"
             android:background="@android:color/black"
             android:gravity="center_vertical"
-            android:paddingLeft="250dp">
+            android:paddingLeft="100dp">
+            <ImageView
+                android:id="@+id/iv_gm_cruze"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/select_simple_cruze"/>
+
             <ImageView
                 android:id="@+id/iv_go_money"
                 android:layout_width="wrap_content"
