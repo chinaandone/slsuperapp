@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -27,16 +29,22 @@ public class moneyActivity extends Activity {
     private int DelayTime=60*1000;
     public static final int TIME = 60000;
     public static final int GOBack = 200;
+    public static final int GOGM = 201;
+    private int GOGM_TIME = 3*60000;
 
     public static final String gmCruzeUrl= "http://e.cn.miaozhen.com/r/k=2040258&p=75fWP&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&ro=sm&vo=385796fdd&vr=2&o=http%3A%2F%2Fwww.mychevy.com.cn%2Fmychevy_activity%2F1004%3Futm_source%3Dxcr%26utm_medium%3Dxcr%26utm_term%3DSP-CH1700154_HS-201703323_MOB228_72908728%26utm_campaign%3Dxcr";
     public static final String gmCruzeGameUrl = "http://120.77.10.145/gmgame/index.html";
     public static final String cmbcIndexUrl = "http://120.77.10.145/cmbc/index.html";
     public static final String cmbcApplyUrl = "http://120.77.10.145/cmbc/apply.html";
+    public String phone = "";
+    public static final int loadTime = 2;
+    private int currentloadTime = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iv_go_money);
+
         Bundle bundle = this.getIntent().getExtras();
         if(bundle!=null){
 //            if(bundle.getInt("initPage")==2) {
@@ -44,6 +52,9 @@ public class moneyActivity extends Activity {
 //            }
 //
             loadUrl=bundle.getString("url");
+            if(loadUrl.equals(gmCruzeUrl)){
+                phone=bundle.getString("phone");
+            }
         }
         initView();
         initWebSetting();
@@ -55,6 +66,30 @@ public class moneyActivity extends Activity {
     private void initView() {
         mProgressDialog = new ProgressDialog(this);
         webView = (WebView) findViewById(R.id.webView);
+
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onRequestFocus(WebView view) {
+                super.onRequestFocus(view);
+
+            }
+
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                if(newProgress==100) {
+                    Log.v("OnProgressChanged", "OnProgressChanged finish 100%");
+                    currentloadTime++;
+                    if(currentloadTime>=loadTime){
+                        if(phone!=null && phone.length()>0) {
+                            String js = "document.getElementsByTagName('input')[4].value=" + phone;
+                            webView.loadUrl("javascript:" + js);
+                        }
+
+                    }
+                }
+            }
+        });
 //        webView.loadUrl("http://120.77.10.145/cmbc/index.html");
         webView.loadUrl(loadUrl);
         webView.requestFocusFromTouch();
@@ -70,9 +105,15 @@ public class moneyActivity extends Activity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
-                webView.loadUrl(url);
+//                webView.loadUrl(url);
+                view.loadUrl(url);
                 return true;
 //                return false;
+            }
+
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                super.onLoadResource(view, url);
             }
 
             @Override
@@ -86,6 +127,7 @@ public class moneyActivity extends Activity {
                 super.onPageFinished(view, url);
                 mProgressDialog.hide();
                 mHandler.sendEmptyMessageDelayed(GOBack, TIME);
+                mHandler.sendEmptyMessageDelayed(GOGM,GOGM_TIME);
             }
 
             @Override
@@ -116,6 +158,15 @@ public class moneyActivity extends Activity {
                 onBack();
             }
         },DelayTime);
+
+        new WeakHandler().postDelayed(
+                new Runnable(){
+                    @Override
+                    public void run() {
+                        goGMinfo();
+                    }
+                },GOGM_TIME
+        );
     }
 
     private Handler mHandler = new Handler() {
@@ -124,6 +175,11 @@ public class moneyActivity extends Activity {
             switch (msg.what) {
                 case GOBack: {
                     onBack();
+                    break;
+                }
+                case GOGM:{
+                    //3分钟直接跳到gm的留咨页面
+                    goGMinfo();
                     break;
                 }
             }
@@ -136,4 +192,11 @@ public class moneyActivity extends Activity {
         super.onUserInteraction();
 
     }
+
+    //游戏内容3分钟后跳转到留咨页面
+    private void goGMinfo(){
+        webView.loadUrl(gmCruzeUrl);
+    }
+
+
 }
