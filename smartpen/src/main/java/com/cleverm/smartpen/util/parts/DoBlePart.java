@@ -53,7 +53,7 @@ public class DoBlePart {
     private static final String sPadMode="X10H";
 
     private static final String sPadMode1 = "X10";
-    private static final String sPadMode2 = "SPAD,ksd";
+    private static final String sPadMode2 = "SPAD,ksd,S30";
 
     private static boolean sSubTwenty=true;
     private static boolean sSubTen=true;

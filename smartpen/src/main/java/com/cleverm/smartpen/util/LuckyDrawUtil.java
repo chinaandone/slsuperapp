@@ -1,8 +1,6 @@
 package com.cleverm.smartpen.util;
 
 import com.alibaba.fastjson.JSON;
-import com.bleframe.library.log.BleLog;
-import com.cleverm.smartpen.bean.DiscountInfo;
 import com.cleverm.smartpen.bean.LuckyPrizeIdInfo;
 import com.cleverm.smartpen.bean.LuckyPrizeInfo;
 import com.cleverm.smartpen.bean.event.OnLuckyEvent;
@@ -11,11 +9,8 @@ import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -42,6 +37,8 @@ public class LuckyDrawUtil {
     private static final String URL_LUCKY_PRIZEID="http://www.myee7.com/tarot/services/public/getRandomClientPrizeInfo";
     private static final String URL_LUCKY_RECEIVE="http://www.myee7.com/tarot/services/public/confirmPriceInfo";
     private static final String URL_CANCEL_PRIZE="http://www.myee7.com/tarot/services/public/backToPrizePool";
+
+    private static final String URL_LUCKY_GM_SMS="http://120.77.10.145/api/sendNotifyMsg";
 
     public static final String URL_SPLITE_IMAGE="http://myee7.com/push/";
 
@@ -294,5 +291,38 @@ public class LuckyDrawUtil {
         }
     }
 
+    private void doSendGmSMS(String phone,String prize) {
+//        Long deskId = QuickUtils.getDeskId();
+        OkHttpUtils.post()
+                .addParams("phoneNum", phone)
+//                .addParams("deskId", String.valueOf(deskId))
+//                .addParams("prizeGetId", prize)
+                .url(URL_LUCKY_RECEIVE)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(String result) {
+                        QuickUtils.log(TAG+"Lucky-Server-phone："+result);
+                        try {
+                            JSONObject json = new JSONObject(result);
+                            String code = json.getString("code");
+                            if(code.equals(CODE_OK)){
+                                EventBus.getDefault().post(new OnLuckyEvent(OnLuckyEvent.Type.gotPrizeSuccess,GOT_PRIZE_SUCCESS_MESSAGE));
+                            }else{
+                                String desc = json.getString("desc");
+                                EventBus.getDefault().post(new OnLuckyEvent(OnLuckyEvent.Type.gotPrizeFail,desc));
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            EventBus.getDefault().post(new OnLuckyEvent(OnLuckyEvent.Type.gotPrizeFail, GOT_PRIZE_FAIL_UNKNOW));
+                        }
+                    }
+                });
+    }
 
 }

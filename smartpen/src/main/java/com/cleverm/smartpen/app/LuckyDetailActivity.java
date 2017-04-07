@@ -166,7 +166,7 @@ public class LuckyDetailActivity extends BaseActivity implements View.OnClickLis
                 mLuckyDetailPhoneBtn.setEnabled(false);
                 QuickUtils.doStatistic(StatisticsUtil.APP_PRIZE_RECEIVEGOODS,StatisticsUtil.APP_PRIZE_RECEIVEGOODS_DESC);
                 if(checkPhone()){
-                    LuckyDrawUtil.getInstance().inputphone(mLuckyDetailPhoneEd.getText().toString().trim().replaceAll(" ",""),String.valueOf(oldInfo.getPrizeGetId()));
+//                    LuckyDrawUtil.getInstance().inputphone(mLuckyDetailPhoneEd.getText().toString().trim().replaceAll(" ",""),String.valueOf(oldInfo.getPrizeGetId()));
                     //add by zwd for detail info in pad
                     //LuckyPrizeIdInfo luckyPrizeIdInfo = (LuckyPrizeIdInfo)this.getIntent().getSerializableExtra(LuckyDetailActivity.INTENT_KEY);
                     Intent intent = new Intent(this,moneyActivity.class);
@@ -174,10 +174,15 @@ public class LuckyDetailActivity extends BaseActivity implements View.OnClickLis
                     bundle.putInt("initPage", 2);
                     if(oldInfo.getPhonePrizeType()==2) {
                         bundle.putString("url", moneyActivity.cmbcApplyUrl);
+                        LuckyDrawUtil.getInstance().inputphone(mLuckyDetailPhoneEd.getText().toString().trim().replaceAll(" ",""),String.valueOf(oldInfo.getPrizeGetId()));
                     }else if(oldInfo.getPhonePrizeType()==3){
                         bundle.putString("url", moneyActivity.gmCruzeUrl);
+                        bundle.putString("phone",mLuckyDetailPhoneEd.getText().toString().trim().replaceAll(" ",""));
+                        bundle.putInt("prizegetid",oldInfo.getPrizeGetId());
                     }else{
-                        bundle.putString("url", moneyActivity.gmCruzeUrl);
+//                        bundle.putString("url", moneyActivity.gmCruzeUrl);
+                        LuckyDrawUtil.getInstance().inputphone(mLuckyDetailPhoneEd.getText().toString().trim().replaceAll(" ",""),String.valueOf(oldInfo.getPrizeGetId()));
+                        return;
                     }
                     intent.putExtras(bundle);
                     startActivity(intent);

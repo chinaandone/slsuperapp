@@ -49,7 +49,6 @@ import com.cleverm.smartpen.util.Constant;
 import com.cleverm.smartpen.util.DownloadUtil;
 import com.cleverm.smartpen.util.IntentUtil;
 import com.cleverm.smartpen.util.LuckyDrawUtil;
-import com.cleverm.smartpen.util.NetWorkUtil;
 import com.cleverm.smartpen.util.QuickUtils;
 import com.cleverm.smartpen.util.RememberUtil;
 import com.cleverm.smartpen.util.SchedulingUtil;
@@ -393,21 +392,23 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             }
             int smsCode = statIteration(penCode);
             long deskId = RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID, Constant.DESK_ID_DEF_DEFAULT);
-            if (!NetWorkUtil.hasNetwork()) {
-                QuickUtils.log("网络异常，请直接找服务员!");
-                EventBus.getDefault().post(new OnToastEvent("网络异常，请直接找服务员!"));
-                return;
-            }
+//            if (!NetWorkUtil.hasNetwork()) {
+//                QuickUtils.log("网络异常，请直接找服务员!");
+//                EventBus.getDefault().post(new OnToastEvent("网络异常，请直接找服务员!"));
+//                return;
+//            }
             if (deskId == Constant.DESK_ID_DEF_DEFAULT) {
                 QuickUtils.log("桌号未设置，请直接找服务员!");
                 EventBus.getDefault().post(new OnToastEvent("桌号未设置，请直接找服务员!"));
                 return;
+            }else{
+                dispatch.doStartAnimation(penCode);
             }
-            InfoSendSMSVo infoSendSMSVo = new InfoSendSMSVo();
-            infoSendSMSVo.setTemplateID(smsCode);
-            infoSendSMSVo.setTableID(deskId);
-            QuickUtils.log(TAG + "SendSMS：" + "id=" + penCode + " deskId=" + deskId + " alreadySend=" + alreadySend);
-            sendMessageToService(infoSendSMSVo, penCode, alreadySend, dispatch);
+//            InfoSendSMSVo infoSendSMSVo = new InfoSendSMSVo();
+//            infoSendSMSVo.setTemplateID(smsCode);
+//            infoSendSMSVo.setTableID(deskId);
+//            QuickUtils.log(TAG + "SendSMS：" + "id=" + penCode + " deskId=" + deskId + " alreadySend=" + alreadySend);
+//            sendMessageToService(infoSendSMSVo, penCode, alreadySend, dispatch);
         }
 
 
@@ -806,10 +807,12 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.iv_gm_cruze://通用品牌的入口
-                doStatistic(StatisticsUtil.CALL_GET_CAR, StatisticsUtil.CALL_GET_CAR_DESC);
+                doStatistic(StatisticsUtil.CALL_GET_CAR_ENTRANCE, StatisticsUtil.CALL_GET_CAR_ENTRANCE_DESC);
                 Intent intent1 = new Intent(this,moneyActivity.class);
                 Bundle bundle1 = new Bundle();
                 bundle1.putString("url",moneyActivity.gmCruzeGameUrl);
+//                bundle1.putString("url",moneyActivity.gmCruzeUrl);
+//                bundle1.putString("phone","18551663299");
                 intent1.putExtras(bundle1);
                 startActivity(intent1);
                 break;

@@ -7,8 +7,8 @@ android {
         applicationId "com.cleverm.smartpen"
         minSdkVersion 19
         targetSdkVersion 19
-        versionCode 13006
-        versionName "1.4.0"
+        versionCode 13007
+        versionName "1.4.1"
         multiDexEnabled true
     }
     buildTypes {
