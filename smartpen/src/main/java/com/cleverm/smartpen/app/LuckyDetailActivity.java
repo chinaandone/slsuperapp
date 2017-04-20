@@ -186,6 +186,8 @@ public class LuckyDetailActivity extends BaseActivity implements View.OnClickLis
                     }
                     intent.putExtras(bundle);
                     startActivity(intent);
+                }else {
+                    mLuckyDetailPhoneBtn.setEnabled(true);
                 }
                 break;
         }
