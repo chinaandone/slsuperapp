@@ -468,7 +468,7 @@ public class Constant {
     public static  String NEW_FLAG="default";
 
     public static int VIDEO_WANGWANG_ID=235;
-    public static int VIDEO_GM_CRUZE_ID=302;
+    public static int VIDEO_GM_CRUZE_ID=311; //302
 
 
     //add by Randy for check if String is number
