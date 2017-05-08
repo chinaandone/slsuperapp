@@ -54,7 +54,8 @@ public class SelectTableActivity extends BaseSelectTableActivity {
 //                                        RememberUtil.putInt(SimpleAppActivity.SPE_WATCH_ADD,Integer.parseInt(bleSetInfo.getWatchadd()));
                                         //支持多个手环配置
                                         RememberUtil.putString(SimpleAppActivity.SPE_WATCH_ADD,bleSetInfo.getWatchadd());
-                                        RememberUtil.putInt(SimpleAppActivity.SPE_DONGLE_ADD,Integer.parseInt(bleSetInfo.getDongleadd()));
+//                                        RememberUtil.putInt(SimpleAppActivity.SPE_DONGLE_ADD,Integer.parseInt(bleSetInfo.getDongleadd()));
+                                        RememberUtil.putString(SimpleAppActivity.SPE_DONGLE_ADD, bleSetInfo.getDongleadd());
                                         RememberUtil.putString(SimpleAppActivity.SPE_BLE_MAC,bleSetInfo.getMac_address());
                                     } catch (JSONException e) {
                                         e.printStackTrace();

@@ -41,6 +41,8 @@ import com.cleverm.smartpen.modle.TableType;
 import com.cleverm.smartpen.net.InfoSendSMSVo;
 import com.cleverm.smartpen.net.RequestNet;
 import com.cleverm.smartpen.pushtable.NetworkMonitor;
+import com.cleverm.smartpen.rabbitmq.RabbitMQProductor;
+import com.cleverm.smartpen.rabbitmq.RabbitMQRunnable;
 import com.cleverm.smartpen.ui.FullScreenVideoView;
 import com.cleverm.smartpen.ui.LongPressView;
 import com.cleverm.smartpen.util.BleOperation;
@@ -164,9 +166,15 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     private ImageView mGMCruze;
     private ImageView mGMCruzeAd;
 
+    private RabbitMQProductor rabbitMQProductor;
+    private String tableName;
+    private RabbitMQRunnable rabbitMQRunnable;
+    private String watchIDs;
+    private String serverHost;
 
     public enum MessageCode {
-        FOOD, WATER, PAY, OTHER, CASH_PAY, UNION_CARD_PAY, WEIXIN_PAY, ALI_PAY
+        FOOD, WATER, PAY, OTHER, CASH_PAY, UNION_CARD_PAY, WEIXIN_PAY, ALI_PAY,
+        NEEDPAPER,NEEDSOUP,NEEDDISHWARE,NEEDPAN,NEEDTABLEWARE,NEEDHURRY,NEEDCHARCOAL,NEEDTOOTHPICK
     }
 
 
@@ -510,6 +518,8 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         initView();
         initListener();
         initData();
+
+
         //add by Randy for ble call services start
 //        initDongle();
         //add by Randy for ble call services end
@@ -605,6 +615,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         RememberUtil.putBoolean(Constant.BROADCAST_RESATRT_EVENT, false);
         //add by Randy get Ble set info start
         if(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)!=8888) {
+             tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
             ServiceUtil.getInstance().getBleSetInfo(QuickUtils.getOrgIdFromSp(),
                     String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
                     new ServiceUtil.JsonInterface() {
@@ -615,7 +626,8 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 //                                RememberUtil.putInt(SPE_WATCH_ADD, Integer.parseInt(bleSetInfo.getWatchadd()));
                                 //支持多个手环配置
                                 RememberUtil.putString(SPE_WATCH_ADD,bleSetInfo.getWatchadd());
-                                RememberUtil.putInt(SPE_DONGLE_ADD, Integer.parseInt(bleSetInfo.getDongleadd()));
+//                                RememberUtil.putInt(SPE_DONGLE_ADD, Integer.parseInt(bleSetInfo.getDongleadd()));
+                                RememberUtil.putString(SPE_DONGLE_ADD, bleSetInfo.getDongleadd());
                                 RememberUtil.putString(SPE_BLE_MAC, bleSetInfo.getMac_address());
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -628,6 +640,8 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                         }
                     });
         }
+
+
         //add by Randy get Ble set info end
         //add by Randy for upload heartbeat start
         ttask = new TimerTask() {
@@ -656,6 +670,23 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         doTimerClock();
 
 
+    }
+
+    private RabbitMQRunnable initMQProductor(){
+        RabbitMQProductor rabbitMQProductor;
+        RabbitMQRunnable rabbitMQRunnable;
+        watchIDs = RememberUtil.getString(SPE_WATCH_ADD,"");
+        serverHost = RememberUtil.getString(SPE_DONGLE_ADD,"");
+
+        if(watchIDs.equals("") || serverHost.equals("")){
+            OnToastEvent onToastEvent = new OnToastEvent("尚未配置,请直接联系服务员");
+            EventBus.getDefault().post(onToastEvent);
+            return null;
+        }else{
+            rabbitMQProductor = new RabbitMQProductor(serverHost,watchIDs.split(","));
+            rabbitMQRunnable = new RabbitMQRunnable(rabbitMQProductor);
+            return rabbitMQRunnable;
+        }
     }
 
     private void initDongle(){
@@ -757,13 +788,15 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                 handlerMessage(FOOD);
 //                Toast.makeText(this.mContext,RememberUtil.getString(SelectTableActivity.SELECTEDTABLENAME,""),Toast.LENGTH_LONG).show();
 //                Toast.makeText(this.mContext,DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0)),Toast.LENGTH_LONG).show();
-                sendCallService(FOOD);
+//                sendCallService(FOOD);
+                sendCallServiceToWifiWatch(FOOD);
                 doStatistic(StatisticsUtil.CALL_ADD_FOOD, StatisticsUtil.CALL_ADD_FOOD_DESC);
                 break;
 
             case R.id.iv_call_water:
                 handlerMessage(WATER);
-                sendCallService(WATER);
+//                sendCallService(WATER);
+                sendCallServiceToWifiWatch(WATER);
                 doStatistic(StatisticsUtil.CALL_ADD_WATER, StatisticsUtil.CALL_ADD_WATER_DESC);
                 break;
             case R.id.iv_call_pay:
@@ -774,7 +807,8 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.iv_call_other:
                 handlerMessage(OTHER);
-                sendCallService(OTHER);
+//                sendCallService(OTHER);
+                sendCallServiceToWifiWatch(OTHER);
                 doStatistic(StatisticsUtil.CALL_OTHER_SERVIC, StatisticsUtil.CALL_OTHER_SERVIC_DESC);
                 break;
 
@@ -862,28 +896,32 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             case R.id.iv_levitate_pay_ali:
                 hidePayLevitate();
                 handlerMessage(ALI_PAY);
-                sendCallService(ALI_PAY);
+//                sendCallService(ALI_PAY);
+                sendCallServiceToWifiWatch(ALI_PAY);
                 doStatistic(StatisticsUtil.CALL_PAY, StatisticsUtil.CALL_PAY_DESC + "------" + StatisticsUtil.CALL_PAY_ALIPAY_DESC, StatisticsUtil.CALL_PAY_ALIPAY);
                 break;
 
             case R.id.iv_levitate_pay_weixin:
                 hidePayLevitate();
                 handlerMessage(WEIXIN_PAY);
-                sendCallService(WEIXIN_PAY);
+//                sendCallService(WEIXIN_PAY);
+                sendCallServiceToWifiWatch(WEIXIN_PAY);
                 doStatistic(StatisticsUtil.CALL_PAY, StatisticsUtil.CALL_PAY_DESC + "------" + StatisticsUtil.CALL_PAY_WEIXIN_DESC, StatisticsUtil.CALL_PAY_WEIXIN);
                 break;
 
             case R.id.iv_levitate_pay_unioncard:
                 hidePayLevitate();
                 handlerMessage(UNION_CARD_PAY);
-                sendCallService(UNION_CARD_PAY);
+//                sendCallService(UNION_CARD_PAY);
+                sendCallServiceToWifiWatch(UNION_CARD_PAY);
                 doStatistic(StatisticsUtil.CALL_PAY, StatisticsUtil.CALL_PAY_DESC + "------" + StatisticsUtil.CALL_PAY_CARD_DESC, StatisticsUtil.CALL_PAY_CARD);
                 break;
 
             case R.id.iv_levitate_pay_cash:
                 hidePayLevitate();
                 handlerMessage(CASH_PAY);
-                sendCallService(CASH_PAY);
+//                sendCallService(CASH_PAY);
+                sendCallServiceToWifiWatch(CASH_PAY);
                 doStatistic(StatisticsUtil.CALL_PAY, StatisticsUtil.CALL_PAY_DESC + "------" + StatisticsUtil.CALL_PAY_CASH_DESC, StatisticsUtil.CALL_PAY_CASH);
                 break;
 
@@ -1196,7 +1234,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             }
     };
 
-    @Subscribe
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onToastEvent(final OnToastEvent event) {
         if (mToastShow) {
             mToastRl.setVisibility(View.GONE);
@@ -1365,7 +1403,8 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         whetherDeskInfo();
         //TODO 屏蔽关机时间后的一次视频界面
 //        Toast.makeText(SimpleAppActivity.this,"Connect Resume",Toast.LENGTH_LONG).show();
-        initDongle();
+        //initDongle();
+//        initMQProductor();
         doStatistic(StatisticsUtil.BACK_VIDEO, StatisticsUtil.BACK_VIDEO_DESC);
     }
 
@@ -1557,4 +1596,83 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     }
 
 
+    //add by randy for wifiwatch
+    private void sendCallServiceToWifiWatch(MessageCode messageCode){
+        RabbitMQRunnable rabbitMQRunnable;
+        tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
+        String callService = transCallServer(messageCode);
+        String mqMessage=null;
+        if(tableName!=null) {
+             mqMessage = "FF|FC|" + tableName + "|"+callService;
+        }else{
+             mqMessage = "FF|FC|"+"未知"+"|"+callService;
+        }
+        rabbitMQRunnable = initMQProductor();
+        if(rabbitMQRunnable!=null) {
+            rabbitMQRunnable.setMqMessage(mqMessage);
+            new Thread(rabbitMQRunnable).start();
+        }
+//        else{
+//            Toast.makeText(SimpleAppActivity.this,"watch info does not config",Toast.LENGTH_LONG);
+//        }
+
+    }
+
+    private String transCallServer(MessageCode messageCode){
+        String retMessage;
+        switch (messageCode) {
+            case FOOD:
+                retMessage = Constant.NEED_FOOD;
+                break;
+            case WATER:
+                retMessage = Constant.NEED_TEA;
+                break;
+            case PAY:
+                retMessage = Constant.NEED_PAY;
+                break;
+            case OTHER:
+                retMessage = Constant.NEED_OTHER;
+                break;
+            case UNION_CARD_PAY:
+                retMessage = Constant.NEED_PAY_CARD;
+                break;
+            case CASH_PAY:
+                retMessage = Constant.NEED_PAY_CASH;
+                break;
+            case WEIXIN_PAY:
+                retMessage = Constant.NEED_PAY_WEIXIN;
+                break;
+            case ALI_PAY:
+                retMessage = Constant.NEED_PAY_ZHIFUBAO;
+                break;
+            case NEEDPAPER:
+                retMessage = Constant.NEED_PAPER;
+                break;
+            case NEEDSOUP:
+                retMessage = Constant.NEED_SOUP;
+                break;
+            case NEEDDISHWARE:
+                retMessage = Constant.NEED_DISHWARE;
+                break;
+            case NEEDPAN:
+                retMessage = Constant.NEED_PAN;
+                break;
+            case NEEDTABLEWARE:
+                retMessage = Constant.NEED_TABLEWARE;
+                break;
+            case NEEDHURRY:
+                retMessage = Constant.NEED_HURRY;
+                break;
+            case NEEDCHARCOAL:
+                retMessage = Constant.NEED_CHARCOAL;
+                break;
+            case NEEDTOOTHPICK:
+                retMessage = Constant.NEED_TOOTHPICK;
+                break;
+            default:
+                retMessage = Constant.NEED_OTHER;
+                break;
+        }
+        return retMessage;
+    }
 }

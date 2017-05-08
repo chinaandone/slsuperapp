@@ -470,6 +470,22 @@ public class Constant {
     public static int VIDEO_WANGWANG_ID=235;
     public static int VIDEO_GM_CRUZE_ID=311; //302
 
+    public static final String NEED_FOOD = "点餐加菜 ";
+    public static final String NEED_TEA ="添加茶水 ";
+    public static final String NEED_PAPER = "湿巾纸巾";
+    public static final String NEED_PAY = "呼叫结账";
+    public static final String NEED_OTHER = "其他服务";
+    public static final String NEED_PAY_CASH = "现金结账";
+    public static final String NEED_PAY_CARD = "银行卡结账";
+    public static final String NEED_PAY_ZHIFUBAO= "支付宝结账";
+    public static final String NEED_PAY_WEIXIN = "微信结账";
+    public static final String NEED_SOUP = "火锅加汤";
+    public static final String NEED_DISHWARE = "更换餐具";
+    public static final String NEED_PAN = "更换烤盘";
+    public static final String NEED_TABLEWARE = "收拾桌面";
+    public static final String NEED_HURRY = "催菜";
+    public static final String NEED_CHARCOAL= "加炭加火";
+    public static final String NEED_TOOTHPICK = "纸巾牙签";
 
     //add by Randy for check if String is number
     public static boolean isNumeric(String str){
