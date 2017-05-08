@@ -33,7 +33,7 @@ public class moneyActivity extends Activity {
     public static final int GOGM = 201;
     private int GOGM_TIME = 2*60000;
 
-    public static final String gmCruzeUrl= "http://e.cn.miaozhen.com/r/k=2040258&p=75fWP&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&ro=sm&vo=385796fdd&vr=2&o=http%3A%2F%2Fwww.mychevy.com.cn%2Fmychevy_activity%2F1004%3Futm_source%3Dxcr%26utm_medium%3Dxcr%26utm_term%3DSP-CH1700154_HS-201703323_MOB228_72908728%26utm_campaign%3Dxcr";
+    public static final String gmCruzeUrl= "http://e.cn.miaozhen.com/r/k=2040258&p=75fWP&dx=__IPDX__&rt=2&ns=__IP__&ni=__IESID__&v=__LOC__&xa=__ADPLATFORM__&tr=__REQUESTID__&ro=sm&vo=385796fdd&vr=2&o=http%3A%2F%2Fwww.mychevy.com.cn%2Fmychevy_activity%2F1065%3Futm_source%3Dxcr%26utm_medium%3Dxcr%26utm_term%3DSP-CH1700154_HS-201703323_MOB228_72908728%26utm_campaign%3Dxcr";
     public static final String gmCruzeGameUrl = "http://120.77.10.145/gmgame/index.html";
     public static final String cmbcIndexUrl = "http://120.77.10.145/cmbc/index.html";
     public static final String cmbcApplyUrl = "http://120.77.10.145/cmbc/apply.html";
