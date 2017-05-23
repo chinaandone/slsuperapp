@@ -12,7 +12,8 @@ import java.util.regex.Pattern;
 public class Constant {
 
     //alan add 20161114 for gameapp begin
-    public static final String GAME_ENTERTAINMENT = "com.gameley.runningman3.baidu1";          //手游试玩
+//    public static final String GAME_ENTERTAINMENT = "com.gameley.runningman3.baidu1";          //手游试玩
+    public static final String GAME_ENTERTAINMENT = "cn.jj";          //手游试玩
     //alan add 20161114 for gameapp end
 
     /**
