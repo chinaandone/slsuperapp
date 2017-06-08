@@ -227,7 +227,7 @@
             <LinearLayout
                 android:layout_width="180dp"
                 android:layout_height="match_parent"
-                android:background="@android:color/black"
+                android:background="@drawable/right"
                 android:orientation="vertical">
 
 
@@ -237,7 +237,7 @@
                     android:layout_height="115dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="26dp"
-                    android:background="@drawable/select_simple_right_food"/>
+                    android:background="@drawable/select_simple_base_style"/>
 
                 <ImageView
                     android:id="@+id/iv_call_water"
@@ -245,7 +245,7 @@
                     android:layout_height="115dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="40dp"
-                    android:background="@drawable/select_simple_right_water"/>
+                    android:background="@drawable/select_simple_base_style"/>
 
 
                 <ImageView
@@ -254,7 +254,7 @@
                     android:layout_height="115dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="40dp"
-                    android:background="@drawable/select_simple_right_pay"/>
+                    android:background="@drawable/select_simple_base_style"/>
 
 
                 <ImageView
@@ -263,7 +263,7 @@
                     android:layout_height="115dp"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="40dp"
-                    android:background="@drawable/select_simple_right_other"
+                    android:background="@drawable/select_simple_base_style"
                     />
 
 
@@ -277,7 +277,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1.5"
-            android:background="@android:color/black"
+            android:background="@drawable/buttom"
             android:gravity="center_vertical"
             android:paddingLeft="100dp">
 
@@ -286,47 +286,54 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/select_simple_cruze"/>
+                android:background="@drawable/select_simple_base_style"/>
 
             <ImageView
                 android:id="@+id/iv_go_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/select_simple_money"/>
+                android:background="@drawable/select_simple_base_style"/>
+
+            <ImageView
+                android:id="@+id/iv_go_jj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_simple_base_style"/>
 
             <ImageView
                 android:id="@+id/iv_go_shop"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/select_simple_shop"/>
+                android:background="@drawable/select_simple_base_style"/>
 
             <ImageView
                 android:id="@+id/iv_go_play"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/select_simple_play"/>
+                android:background="@drawable/select_simple_base_style"/>
 
             <ImageView
                 android:id="@+id/iv_go_benefit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/select_simple_benefit"/>
+                android:visibility="gone"
+                android:background="@drawable/select_simple_base_style"/>
 
             <ImageView
                 android:id="@+id/iv_go_video"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/select_simple_video"/>
+                android:background="@drawable/select_simple_base_style"/>
 
             <ImageView
                 android:id="@+id/iv_go_game"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/select_simple_game"/>
+                android:background="@drawable/select_simple_base_style"/>
 
 
             <!--优惠专区-->
@@ -336,7 +343,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:visibility="gone"
-                android:background="@drawable/select_simple_discount"/>
+                android:background="@drawable/select_simple_base_style"/>
 
             !--抽奖专区-->
             <ImageView
@@ -344,7 +351,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:background="@drawable/select_simple_lucky"/>
+                android:background="@drawable/select_simple_base_style"/>
 
 
 

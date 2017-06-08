@@ -22,6 +22,7 @@ import com.bleframe.library.config.BleConfig;
 import com.bleframe.library.profile.SmartPenProfile;
 import com.cleverm.smartpen.R;
 import com.cleverm.smartpen.Version.VersionManager;
+import com.cleverm.smartpen.app.webview.JJGameActivity;
 import com.cleverm.smartpen.application.SmartPenApplication;
 import com.cleverm.smartpen.bean.BleSetInfo;
 import com.cleverm.smartpen.bean.DiscountInfo;
@@ -165,6 +166,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     //add by randy for GM entrance
     private ImageView mGMCruze;
     private ImageView mGMCruzeAd;
+    private ImageView mJJEntrance;
 
     private RabbitMQProductor rabbitMQProductor;
     private String tableName;
@@ -568,6 +570,13 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 
         mAdAnim=(ImageView)findViewById(R.id.iv_ad_anim);
         mGMCruzeAd = (ImageView)findViewById(R.id.iv_ad_cruze);
+        mJJEntrance = (ImageView)findViewById(R.id.iv_go_jj);
+
+        //隐藏导航栏
+//        View decorView = getWindow().getDecorView();
+//        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                | View.SYSTEM_UI_FLAG_FULLSCREEN;
+//        decorView.setSystemUiVisibility(uiOptions);
 
     }
 
@@ -593,6 +602,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             }
         });
         mGMCruzeAd.setOnClickListener(this);
+        mJJEntrance.setOnClickListener(this);
         findViewById(R.id.iv_levitate_pay_ali).setOnClickListener(this);
         findViewById(R.id.iv_levitate_pay_weixin).setOnClickListener(this);
         findViewById(R.id.iv_levitate_pay_unioncard).setOnClickListener(this);
@@ -601,7 +611,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         findViewById(R.id.iv_go_lucky).setOnClickListener(this);
 
         AnimationDrawable frameAnim = (AnimationDrawable) getResources().getDrawable(R.drawable.lucky_goin_common_fram);
-        findViewById(R.id.iv_go_lucky).setBackgroundDrawable(frameAnim);
+//        findViewById(R.id.iv_go_lucky).setBackgroundDrawable(frameAnim);
         frameAnim.start();
 
     }
@@ -839,6 +849,16 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                 bundle.putString("url",moneyActivity.cmbcIndexUrl);
                 intent.putExtras(bundle);
                 startActivity(intent);
+                break;
+            case R.id.iv_go_jj://jj老虎机
+                Intent intentjj = new Intent(this,JJGameActivity.class);
+                Bundle bundlejj = new Bundle();
+                bundlejj.putString("url", JJGameActivity.loadUrl);
+                intentjj.putExtras(bundlejj);
+                IntentUtil.clearRedundantActivity();
+                hidePayLevitate();
+                startActivity(intentjj);
+                doStatistic(StatisticsUtil.ENTRANCE_JJGAME,StatisticsUtil.ENTRANCE_JJGAME_DESC);
                 break;
             case R.id.iv_gm_cruze://通用品牌的入口
                 doStatistic(StatisticsUtil.CALL_GET_CAR_ENTRANCE, StatisticsUtil.CALL_GET_CAR_ENTRANCE_DESC);

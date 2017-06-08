@@ -91,12 +91,8 @@ public class StatisticsUtil {
     public static final String H5_GAME_DESC="手游试玩";
     public static final int   SETTING =20;//设置
     public static final String SETTING_DESC="设置";
-    public static final int   CALL_GET_CARD =37;//办卡有礼
-    public static final String CALL_GET_CARD_DESC="办卡有礼";
-    public static final int   CALL_GET_CAR=38;//通用角标
-    public static final String CALL_GET_CAR_DESC="通用角标";
-    public static final int   CALL_GET_CAR_ENTRANCE=39;//通用入口
-    public static final String CALL_GET_CAR_ENTRANCE_DESC="通用入口";
+
+
     public static final int   UN_KNOW =100;//暂时没有加进来功能
     public static final String UN_KNOW_DESC="预留功能";
 
@@ -144,6 +140,17 @@ public class StatisticsUtil {
     //主事件为36，二级事件值为 该云端奖券的prizeID值
     public static final int APP_PRIZE_SERVER_LUCKYID=36;
     public static final String APP_PRIZE_SERVER_LUCKYID_DESC="云端奖券";
+
+    public static final int   CALL_GET_CARD =37;//办卡有礼
+    public static final String CALL_GET_CARD_DESC="办卡有礼";
+    public static final int   CALL_GET_CAR=38;//通用角标
+    public static final String CALL_GET_CAR_DESC="通用角标";
+    public static final int   CALL_GET_CAR_ENTRANCE=39;//通用入口
+    public static final String CALL_GET_CAR_ENTRANCE_DESC="通用入口";
+    public static final int ENTRANCE_JJGAME=40;//JJ游戏
+    public static final String ENTRANCE_JJGAME_DESC="JJ游戏";//JJ游戏
+    public static final int ENTRANCE_JJSTART=41;//JJ游戏中的开始转动
+    public static final String ENTRANCE_JJSTART_DESC="开始转动";//开始转动
 
 
 

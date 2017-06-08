@@ -148,7 +148,7 @@
                   android:configChanges="orientation|keyboardHidden|screenSize|navigation"
                   android:screenOrientation="userLandscape" />
         <activity android:name=".app.moneyActivity"></activity>
-
+        <activity android:name=".app.webview.JJGameActivity"></activity>
         <service android:name=".service.penService" />
         <service android:name=".service.ScreenLockListenService" />
         <service android:name=".service.CommunicationService" />
