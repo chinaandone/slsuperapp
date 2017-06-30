@@ -57,7 +57,13 @@
                     android:layout_gravity="top|left"
                     android:background="@mipmap/gm_cruze"
                     android:visibility="gone"/>
-
+                <ImageView
+                    android:id="@+id/iv_ad_link"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="top|left"
+                    android:src="@mipmap/linkrange"
+                    android:visibility="gone"/>
 
 
                 <TextView
@@ -135,7 +141,7 @@
                             android:layout_width="450dp"
                             android:layout_height="250dp"
                             android:layout_alignParentRight="true"
-                            android:layout_marginTop="75dp"
+                            android:layout_marginTop="15dp"
                             android:alpha="1"
                             android:paddingLeft="71dp"
                             android:text="@string/add_greens"
@@ -302,6 +308,12 @@
 
             <ImageView
                 android:id="@+id/iv_go_shop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_simple_base_style"
+                android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/iv_go_jd618"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/select_simple_base_style"/>

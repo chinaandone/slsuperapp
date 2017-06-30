@@ -151,6 +151,10 @@ public class StatisticsUtil {
     public static final String ENTRANCE_JJGAME_DESC="JJ游戏";//JJ游戏
     public static final int ENTRANCE_JJSTART=41;//JJ游戏中的开始转动
     public static final String ENTRANCE_JJSTART_DESC="开始转动";//开始转动
+    public static final int ENTRANCE_JD=42;//JD618入口
+    public static final String ENTRANCE_JD_DESC="JD618";
+    public static final int VIDEO_JJ=43;
+    public static final String VIDEO_JJ_DES="JJ视频点击";
 
 
 

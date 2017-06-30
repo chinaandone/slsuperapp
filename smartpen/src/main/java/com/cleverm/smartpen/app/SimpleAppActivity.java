@@ -2,12 +2,18 @@ package com.cleverm.smartpen.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.hardware.usb.UsbManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,6 +29,8 @@ import com.bleframe.library.profile.SmartPenProfile;
 import com.cleverm.smartpen.R;
 import com.cleverm.smartpen.Version.VersionManager;
 import com.cleverm.smartpen.app.webview.JJGameActivity;
+import com.cleverm.smartpen.app.webview.WebUrlActivity;
+import com.cleverm.smartpen.app.webview.WebViewConstant;
 import com.cleverm.smartpen.application.SmartPenApplication;
 import com.cleverm.smartpen.bean.BleSetInfo;
 import com.cleverm.smartpen.bean.DiscountInfo;
@@ -167,6 +175,9 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     private ImageView mGMCruze;
     private ImageView mGMCruzeAd;
     private ImageView mJJEntrance;
+    private ImageView mVideoLink;
+
+    private ImageView mJDEntrance;
 
     private RabbitMQProductor rabbitMQProductor;
     private String tableName;
@@ -197,7 +208,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             mDispatchHandler = new DispatchHandler(Looper.getMainLooper(), this);
         }
 
-
+        //2
         public void dispatchAnimStart(OnChangeAnimNoticeEvent info) {
             mDispatchHandler.postAnimStart(info);
         }
@@ -228,7 +239,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 
                 }
             }
-
+            //3
             void postAnimStart(OnChangeAnimNoticeEvent info) {
                 removeCallbacksAndMessages(null);
                 obtainMessage(MESSAGE_ANIM_START, info).sendToTarget();
@@ -249,7 +260,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             doAnim(new OnChangeAnimNoticeEvent(0, null, OnChangeAnimNoticeEvent.Status.HIDE));
         }
 
-
+        //1
         private void doStartAnimation(final MessageCode code) {
             String text = null;
             int imageResource = -1;
@@ -299,8 +310,8 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 
 
             }
-
-            mDispatch.dispatchAnimStart(new OnChangeAnimNoticeEvent(imageResource, text, OnChangeAnimNoticeEvent.Status.SHOW));
+            String tableName= DatabaseHelper.getsInstance(SimpleAppActivity.this).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,8888));
+            mDispatch.dispatchAnimStart(new OnChangeAnimNoticeEvent(imageResource, tableName+"\n"+text, OnChangeAnimNoticeEvent.Status.SHOW));
 
             mDispatch.dispatchAnimStop();
         }
@@ -317,7 +328,15 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
             mNoticeRl.setVisibility(View.GONE);
         } else if (event.getType() == OnChangeAnimNoticeEvent.Status.SHOW) {
             mNoticeRl.setVisibility(View.VISIBLE);
-            mNoticeTextRl.setText(event.getText());
+            //设置桌名字体大小
+            String info = event.getText();
+            final SpannableStringBuilder sb = new SpannableStringBuilder(info);
+            final ForegroundColorSpan fcs = new ForegroundColorSpan(Color.rgb(255, 255, 255)); // Span to set text color to some RGB value
+            final StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD); // Span to make text bold
+            sb.setSpan(fcs, 0, info.indexOf('\n'), Spannable.SPAN_INCLUSIVE_INCLUSIVE); // Set the text color for first 4 characters
+            sb.setSpan(bss, 0, info.indexOf('\n'), Spannable.SPAN_INCLUSIVE_INCLUSIVE); // make them also bold
+            sb.setSpan(new AbsoluteSizeSpan(88),0, info.indexOf('\n'), Spannable.SPAN_INCLUSIVE_INCLUSIVE);//设置字体大小
+            mNoticeTextRl.setText(sb);
             mNoticeImageIv.setImageResource(event.getImageResoure());
         }
     }
@@ -572,6 +591,9 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         mGMCruzeAd = (ImageView)findViewById(R.id.iv_ad_cruze);
         mJJEntrance = (ImageView)findViewById(R.id.iv_go_jj);
 
+        mJDEntrance = (ImageView)findViewById(R.id.iv_go_jd618);
+        mVideoLink = (ImageView)findViewById(R.id.iv_ad_link);
+
         //隐藏导航栏
 //        View decorView = getWindow().getDecorView();
 //        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -603,6 +625,9 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         });
         mGMCruzeAd.setOnClickListener(this);
         mJJEntrance.setOnClickListener(this);
+        mJDEntrance.setOnClickListener(this);
+        mVideoLink.setOnClickListener(this);
+
         findViewById(R.id.iv_levitate_pay_ali).setOnClickListener(this);
         findViewById(R.id.iv_levitate_pay_weixin).setOnClickListener(this);
         findViewById(R.id.iv_levitate_pay_unioncard).setOnClickListener(this);
@@ -842,6 +867,14 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                 IntentUtil.goToLauncherApp(mContext, Constant.ONE_SHOP_PACKAGE_NAME, StatisticsUtil.APP_ONLINEBUY, StatisticsUtil.APP_ONLINEBUY_DESC);
                 hidePayLevitate();
                 break;
+            case R.id.iv_go_jd618://JD618
+                doStatistic(StatisticsUtil.ENTRANCE_JD, StatisticsUtil.ENTRANCE_JD_DESC);
+                Intent intentjd618 = new Intent(this,WebUrlActivity.class);
+                Bundle bundlejd618 = new Bundle();
+                bundlejd618.putString("url", WebViewConstant.JD618URL);
+                intentjd618.putExtras(bundlejd618);
+                startActivity(intentjd618);
+                break;
             case R.id.iv_go_money://办卡有礼
                 doStatistic(StatisticsUtil.CALL_GET_CARD, StatisticsUtil.CALL_GET_CARD_DESC);
                 Intent intent = new Intent(this,moneyActivity.class);
@@ -880,7 +913,16 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                 hidePayLevitate();
                 startActivity(intentc);
                 break;
-
+            case R.id.iv_ad_link://视频界面的链接事件
+                doStatistic(StatisticsUtil.VIDEO_JJ, StatisticsUtil.VIDEO_JJ_DES);
+                Intent intentJJtiger = new Intent(this,JJGameActivity.class);
+                Bundle bundleJJtiger = new Bundle();
+                bundleJJtiger.putString("url", JJGameActivity.loadUrl);
+                intentJJtiger.putExtras(bundleJJtiger);
+                IntentUtil.clearRedundantActivity();
+                hidePayLevitate();
+                startActivity(intentJJtiger);
+                break;
             case R.id.iv_go_play://周边玩乐--统计代码在goToLauncherApp()
                 IntentUtil.goToLauncherApp(mContext, Constant.BAI_DU_PACKAGE_NAME, StatisticsUtil.APP_AROUNDPLAY, StatisticsUtil.APP_AROUNDPLAY_DESC);
                 hidePayLevitate();
@@ -1276,6 +1318,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         if(event.getVideoId()==Constant.VIDEO_WANGWANG_ID){
             findViewById(R.id.iv_ad_detail).setVisibility(View.VISIBLE);
             findViewById(R.id.iv_ad_cruze).setVisibility(View.INVISIBLE);
+            findViewById(R.id.iv_ad_link).setVisibility(View.INVISIBLE);
             mAdAnim.setBackgroundResource(R.drawable.frame_video_wangwang);
             AnimationDrawable mAdanimDrawable = (AnimationDrawable) mAdAnim.getBackground();
             if(mAdanimDrawable!=null){
@@ -1284,6 +1327,16 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         }else if(event.getVideoId()==Constant.VIDEO_GM_CRUZE_ID) {
             findViewById(R.id.iv_ad_cruze).setVisibility(View.VISIBLE);
             findViewById(R.id.iv_ad_detail).setVisibility(View.INVISIBLE);
+            findViewById(R.id.iv_ad_link).setVisibility(View.INVISIBLE);
+//            mAdAnim.setBackgroundResource(R.drawable.frame_video_wangwang);
+//            AnimationDrawable mAdanimDrawable = (AnimationDrawable) mAdAnim.getBackground();
+//            if(mAdanimDrawable!=null){
+//                mAdanimDrawable.start();
+//            }
+        }else if(event.getVideoId()==Constant.VIDEO_JJ_GAME_ID) {
+            findViewById(R.id.iv_ad_cruze).setVisibility(View.INVISIBLE);
+            findViewById(R.id.iv_ad_detail).setVisibility(View.INVISIBLE);
+            findViewById(R.id.iv_ad_link).setVisibility(View.VISIBLE);
 //            mAdAnim.setBackgroundResource(R.drawable.frame_video_wangwang);
 //            AnimationDrawable mAdanimDrawable = (AnimationDrawable) mAdAnim.getBackground();
 //            if(mAdanimDrawable!=null){
@@ -1292,6 +1345,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         }else{
             findViewById(R.id.iv_ad_detail).setVisibility(View.INVISIBLE);
             findViewById(R.id.iv_ad_cruze).setVisibility(View.INVISIBLE);
+            findViewById(R.id.iv_ad_link).setVisibility(View.INVISIBLE);
             AnimationDrawable mAdanimDrawable = (AnimationDrawable) mAdAnim.getBackground();
             if(mAdanimDrawable!=null){
                 mAdanimDrawable.stop();

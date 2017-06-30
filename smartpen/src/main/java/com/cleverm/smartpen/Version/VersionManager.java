@@ -135,6 +135,7 @@ public class VersionManager {
                 String ResponseData= EntityUtils.toString(entity, "UTF-8");
                 postCheckNewestVersionCommand2Server(ResponseData);
                 Log.v(TAG, "version post_to_server1 success=" + ResponseData);
+
             }
             Log.v(TAG,"version post_to_server1 "+Response.getStatusLine().getStatusCode());
         } catch (IOException e) {
