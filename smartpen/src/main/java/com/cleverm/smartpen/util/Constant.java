@@ -469,7 +469,7 @@ public class Constant {
     public static  String NEW_FLAG="default";
 
     public static int VIDEO_WANGWANG_ID=235;
-    public static int VIDEO_GM_CRUZE_ID=320; //302;311
+    public static int VIDEO_GM_CRUZE_ID=337; //302;311
     public static int VIDEO_JJ_GAME_ID=319;
 
     public static final String NEED_FOOD = "点餐加菜 ";

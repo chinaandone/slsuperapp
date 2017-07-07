@@ -699,7 +699,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
                         });
             }
         };
-        timer.schedule(ttask,10000,1000*600);
+        timer.schedule(ttask,10000,1000*300);
         //add by Randy for upload heartbeat end
         checkNetState();
         doTimerClock();

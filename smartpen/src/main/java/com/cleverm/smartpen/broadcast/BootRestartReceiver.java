@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.cleverm.smartpen.app.SimpleAppActivity;
 import com.cleverm.smartpen.bean.event.OnBootRestartEvent;
 import com.cleverm.smartpen.util.IntentUtil;
 import com.cleverm.smartpen.util.StatisticsUtil;
