@@ -650,7 +650,8 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         RememberUtil.putBoolean(Constant.BROADCAST_RESATRT_EVENT, false);
         //add by Randy get Ble set info start
         if(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)!=8888) {
-             tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
+            //删除tableName获取,这个信息可以放置在选择桌号内处理
+//             tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
             ServiceUtil.getInstance().getBleSetInfo(QuickUtils.getOrgIdFromSp(),
                     String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
                     new ServiceUtil.JsonInterface() {

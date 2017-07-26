@@ -243,8 +243,11 @@ public class DatabaseHelper {
         if (cursor == null) {
             return null;
         }else{
-            cursor.moveToNext();
-            return cursor.getString(cursor.getColumnIndexOrThrow(TableColumns.NAME));
+            if(cursor.moveToNext()) {
+                return cursor.getString(cursor.getColumnIndexOrThrow(TableColumns.NAME));
+            }else{
+                return null;
+            }
         }
 
     }
