@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.cleverm.smartpen">
 
-    <uses-sdk android:sharedUserId="android.uid.system"   android:minSdkVersion="19" />
+    <uses-sdk
+        android:minSdkVersion="19"
+        android:sharedUserId="android.uid.system" />
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="ANDROID.PERMISSION.DEVICE_POWER" />
@@ -52,52 +54,49 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
-    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES"
-        tools:ignore="ProtectedPermissions"/>
-
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission
+        android:name="android.permission.FORCE_STOP_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <uses-feature android:name="android.hardware.usb.host" />
 
     <application
-
         android:name=".application.SmartPenApplication"
         android:icon="@mipmap/ic_launcher_ddp"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:persistent="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".app.SimpleAppActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|navigation"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:theme="@style/VideoTheme"
-            android:configChanges="orientation|keyboardHidden|screenSize|navigation"
             android:screenOrientation="userLandscape"
-            >
+            android:theme="@style/VideoTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.HOME" />
-
             </intent-filter>
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
-            <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </activity>
         <activity
             android:name=".app.DriverActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
-            android:screenOrientation="userLandscape"
-             />
+            android:screenOrientation="userLandscape" />
         <activity
             android:name=".app.EvaluateActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
@@ -105,7 +104,7 @@
         <activity
             android:name=".app.DemoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
-            android:screenOrientation="userLandscape"/>
+            android:screenOrientation="userLandscape" />
         <activity
             android:name=".app.FutureActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
@@ -117,7 +116,7 @@
         <activity
             android:name=".app.DiscountActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
-            android:screenOrientation="userLandscape"/>
+            android:screenOrientation="userLandscape" />
         <activity
             android:name=".app.LocalDiscountActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
@@ -129,65 +128,69 @@
         <activity
             android:name=".app.GameActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
-            android:screenOrientation="userLandscape"/>
+            android:screenOrientation="userLandscape" />
         <activity
             android:name=".app.PayActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
             android:screenOrientation="userLandscape" />
-        <activity android:name=".app.DemoVideoActivity"
-            android:theme="@style/VideoTheme"
+        <activity
+            android:name=".app.DemoVideoActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize|navigation"
+            android:screenOrientation="userLandscape"
+            android:theme="@style/VideoTheme" />
+        <activity
+            android:name=".app.ScrollDiscountActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
             android:screenOrientation="userLandscape" />
-        <activity android:name=".app.ScrollDiscountActivity"
+        <activity
+            android:name=".app.LuckyDrawActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
             android:screenOrientation="userLandscape" />
-        <activity android:name=".app.LuckyDrawActivity"
+        <activity
+            android:name=".app.LuckyDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|navigation"
             android:screenOrientation="userLandscape" />
-        <activity android:name=".app.LuckyDetailActivity"
-                  android:configChanges="orientation|keyboardHidden|screenSize|navigation"
-                  android:screenOrientation="userLandscape" />
-        <activity android:name=".app.moneyActivity"></activity>
-        <activity android:name=".app.webview.JJGameActivity"></activity>
-        <activity android:name=".app.webview.WebUrlActivity"></activity>
+        <activity android:name=".app.moneyActivity" />
+        <activity android:name=".app.webview.JJGameActivity" />
+        <activity android:name=".app.webview.WebUrlActivity" />
 
         <service android:name=".service.penService" />
         <service android:name=".service.ScreenLockListenService" />
         <service android:name=".service.CommunicationService" />
         <service android:name=".service.DownloaderService" />
         <service android:name=".service.DownloaderDifferenceService" />
-        <service android:name=".service.DownloadPicassoService"/>
-        <service android:name="com.bleframe.library.service.BlatandService"/>
-        <service android:name=".service.OtherService"/>
-        <service android:name=".service.ApolloService"/>
+        <service android:name=".service.DownloadPicassoService" />
+        <service android:name="com.bleframe.library.service.BlatandService" />
+        <service android:name=".service.OtherService" />
+        <service android:name=".service.ApolloService" />
 
-        <receiver android:name=".broadcast.BootRestartReceiver" >
-            
+        <receiver android:name=".broadcast.BootRestartReceiver">
+                        
             <intent-filter>
-                
+                                
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-            
+                            
             </intent-filter>
-
             <intent-filter>
-                <!-- SD卡已经成功挂载   -->
-                <action android:name="android.intent.action.MEDIA_MOUNTED" />
-                <!-- sd卡存在，但还没有挂载   -->
-                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
 
+                <!-- SD卡已经成功挂载 -->
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <!-- sd卡存在，但还没有挂载 -->
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
                 <action android:name="android.intent.action.MEDIA_EJECT" />
+
                 <data android:scheme="file" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".broadcast.ShutDownReceiver" >
+        <receiver android:name=".broadcast.ShutDownReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_SHUTDOWN" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".broadcast.AlarmReceive">
-        </receiver>>
+        <receiver android:name=".broadcast.AlarmReceive"></receiver>
+        >
 
-        <!--点点笔友盟-->
+        <!-- 点点笔友盟 -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="56f1439767e58e95b1000cf3" />
@@ -195,8 +198,10 @@
             android:name="UMENG_CHANNEL"
             android:value="点点笔" />
 
-
+        <receiver
+            android:name=".broadcast.WifiConnectedReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
-
 
 </manifest>

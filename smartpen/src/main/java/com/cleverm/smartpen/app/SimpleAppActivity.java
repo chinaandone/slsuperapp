@@ -41,6 +41,7 @@ import com.cleverm.smartpen.bean.event.OnOutOfChargingEvent;
 import com.cleverm.smartpen.bean.event.OnPayEvent;
 import com.cleverm.smartpen.bean.event.OnToastEvent;
 import com.cleverm.smartpen.bean.event.OnVideoBackEvent;
+import com.cleverm.smartpen.bean.event.TableInfo;
 import com.cleverm.smartpen.database.DatabaseHelper;
 import com.cleverm.smartpen.evnet.OnDisconnectEvent;
 import com.cleverm.smartpen.evnet.OnFindServiceEvent;
@@ -665,6 +666,26 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 //                                RememberUtil.putInt(SPE_DONGLE_ADD, Integer.parseInt(bleSetInfo.getDongleadd()));
                                 RememberUtil.putString(SPE_DONGLE_ADD, bleSetInfo.getDongleadd());
                                 RememberUtil.putString(SPE_BLE_MAC, bleSetInfo.getMac_address());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(String error) {
+
+                        }
+                    });
+
+            ServiceUtil.getInstance().getSelectedTableName(
+                    String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
+                    new ServiceUtil.JsonInterface() {
+                        @Override
+                        public void onSucced(String json) {
+                            try {
+                                TableInfo tableInfo = ServiceUtil.getInstance().parserSingleData(json, TableInfo.class);
+                                RememberUtil.putString(SelectTableActivity.SELECTEDTABLENAME, tableInfo.getName());
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

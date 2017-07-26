@@ -41,6 +41,8 @@ public class SelectTableActivity extends BaseSelectTableActivity {
                     onBackPressed();
                     Log.v(TAG, "mSelectedTableId=" + mSelectedTableId);
                     RememberUtil.putLong(SELECTEDTABLEID,mSelectedTableId);
+                    //用到的桌名也写入
+                    RememberUtil.putString(SELECTEDTABLENAME,mSelectedTableName);
                     //add by zwd for record tablename for call service
 //                    RememberUtil.putString(SELECTEDTABLENAME,mSelectedTableName);  //commit for get tablename from db
                     //add by Randy for get Ble set info end after set talbeId
@@ -57,6 +59,7 @@ public class SelectTableActivity extends BaseSelectTableActivity {
 //                                        RememberUtil.putInt(SimpleAppActivity.SPE_DONGLE_ADD,Integer.parseInt(bleSetInfo.getDongleadd()));
                                         RememberUtil.putString(SimpleAppActivity.SPE_DONGLE_ADD, bleSetInfo.getDongleadd());
                                         RememberUtil.putString(SimpleAppActivity.SPE_BLE_MAC,bleSetInfo.getMac_address());
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

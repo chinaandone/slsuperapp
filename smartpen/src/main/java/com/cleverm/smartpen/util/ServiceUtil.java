@@ -155,5 +155,25 @@ public class ServiceUtil {
                 });
     }
 
+    //add by Randy for Update TableName
+    public void getSelectedTableName(String tableId,final JsonInterface jsonInterface){
+        String url = Constant.DDP_URL+"/table/get";
+//        String url = "http://192.168.0.102:8081"+"/api/v10/heartbeat/beatinfo.do";
+        OkHttpUtils.get()
+                .url(url)
+                .addParams("tableId", tableId)
+                .build()
+                .execute(new StringCallback() {
+                    @Override
+                    public void onError(Call call, Exception e) {
+                        jsonInterface.onFail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onResponse(String response) {
+                        jsonInterface.onSucced(response.toString());
+                    }
+                });
+    }
 
 }
