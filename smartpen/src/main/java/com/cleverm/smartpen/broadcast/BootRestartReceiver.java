@@ -21,7 +21,7 @@ public class BootRestartReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent){
-        if (intent.getAction().equals(ACTION)) ;{
+        if (intent.getAction().equals(ACTION)){
             //统计
             StatisticsUtil.getInstance().insert(StatisticsUtil.OTHER_OPEN_TIME,StatisticsUtil.OTHER_OPEN_TIME_DESC);
             //一天只取一次数据,所以通过开机的一个boolean状态来控制

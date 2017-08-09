@@ -143,6 +143,7 @@ public class BasicWebActivity extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case ReturnToVideoAcvity: {
+                    finish();
                     onBack();
                     break;
                 }

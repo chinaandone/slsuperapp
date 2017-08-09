@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.cleverm.smartpen.app.BaseSelectTableActivity;
+import com.cleverm.smartpen.app.SelectTableActivity;
 import com.cleverm.smartpen.application.SmartPenApplication;
 import com.cleverm.smartpen.bean.TableData;
 import com.cleverm.smartpen.database.DatabaseHelper;
@@ -199,6 +200,15 @@ public class UpdateTableUtil {
             long tableId = Long.parseLong(ListTableInfo.get(i).getTableId());
             String name = ListTableInfo.get(i).getTableName();
             databaseHelper.insertTable(new TableImpl(tableId, typeid, name));
+
+            //add by randy for update tablename to sharepref;2017-0726
+            if(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)!=8888) {
+                long tabid = RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888);
+                if(tableId == tabid){
+                    RememberUtil.putString(SelectTableActivity.SELECTEDTABLENAME,ListTableInfo.get(i).getTableName());
+                }
+            }
+
         }
     }
 

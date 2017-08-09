@@ -37,11 +37,11 @@ import com.cleverm.smartpen.bean.DiscountInfo;
 import com.cleverm.smartpen.bean.event.OnBootRestartEvent;
 import com.cleverm.smartpen.bean.event.OnChangeAnimNoticeEvent;
 import com.cleverm.smartpen.bean.event.OnDestoryActivityEvent;
+import com.cleverm.smartpen.bean.event.OnNetWorkEvent;
 import com.cleverm.smartpen.bean.event.OnOutOfChargingEvent;
 import com.cleverm.smartpen.bean.event.OnPayEvent;
 import com.cleverm.smartpen.bean.event.OnToastEvent;
 import com.cleverm.smartpen.bean.event.OnVideoBackEvent;
-import com.cleverm.smartpen.bean.event.TableInfo;
 import com.cleverm.smartpen.database.DatabaseHelper;
 import com.cleverm.smartpen.evnet.OnDisconnectEvent;
 import com.cleverm.smartpen.evnet.OnFindServiceEvent;
@@ -311,7 +311,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
 
 
             }
-            String tableName= DatabaseHelper.getsInstance(SimpleAppActivity.this).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,8888));
+//            String tableName= DatabaseHelper.getsInstance(SimpleAppActivity.this).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,8888));
             mDispatch.dispatchAnimStart(new OnChangeAnimNoticeEvent(imageResource, tableName+"\n"+text, OnChangeAnimNoticeEvent.Status.SHOW));
 
             mDispatch.dispatchAnimStop();
@@ -650,53 +650,53 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         VideoManager.getInstance().initVideoEngine(mVideoFsvv, this);
         RememberUtil.putBoolean(Constant.BROADCAST_RESATRT_EVENT, false);
         //add by Randy get Ble set info start
-        if(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)!=8888) {
-            //删除tableName获取,这个信息可以放置在选择桌号内处理
-//             tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
-            ServiceUtil.getInstance().getBleSetInfo(QuickUtils.getOrgIdFromSp(),
-                    String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
-                    new ServiceUtil.JsonInterface() {
-                        @Override
-                        public void onSucced(String json) {
-                            try {
-                                BleSetInfo bleSetInfo = ServiceUtil.getInstance().parserSingleData(json, BleSetInfo.class);
-//                                RememberUtil.putInt(SPE_WATCH_ADD, Integer.parseInt(bleSetInfo.getWatchadd()));
-                                //支持多个手环配置
-                                RememberUtil.putString(SPE_WATCH_ADD,bleSetInfo.getWatchadd());
-//                                RememberUtil.putInt(SPE_DONGLE_ADD, Integer.parseInt(bleSetInfo.getDongleadd()));
-                                RememberUtil.putString(SPE_DONGLE_ADD, bleSetInfo.getDongleadd());
-                                RememberUtil.putString(SPE_BLE_MAC, bleSetInfo.getMac_address());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(String error) {
-
-                        }
-                    });
-
-            ServiceUtil.getInstance().getSelectedTableName(
-                    String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
-                    new ServiceUtil.JsonInterface() {
-                        @Override
-                        public void onSucced(String json) {
-                            try {
-                                TableInfo tableInfo = ServiceUtil.getInstance().parserSingleData(json, TableInfo.class);
-                                RememberUtil.putString(SelectTableActivity.SELECTEDTABLENAME, tableInfo.getName());
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(String error) {
-
-                        }
-                    });
-        }
+//        if(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)!=8888) {
+//            //删除tableName获取,这个信息可以放置在选择桌号内处理
+////             tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
+//            ServiceUtil.getInstance().getBleSetInfo(QuickUtils.getOrgIdFromSp(),
+//                    String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
+//                    new ServiceUtil.JsonInterface() {
+//                        @Override
+//                        public void onSucced(String json) {
+//                            try {
+//                                BleSetInfo bleSetInfo = ServiceUtil.getInstance().parserSingleData(json, BleSetInfo.class);
+////                                RememberUtil.putInt(SPE_WATCH_ADD, Integer.parseInt(bleSetInfo.getWatchadd()));
+//                                //支持多个手环配置
+//                                RememberUtil.putString(SPE_WATCH_ADD,bleSetInfo.getWatchadd());
+////                                RememberUtil.putInt(SPE_DONGLE_ADD, Integer.parseInt(bleSetInfo.getDongleadd()));
+//                                RememberUtil.putString(SPE_DONGLE_ADD, bleSetInfo.getDongleadd());
+//                                RememberUtil.putString(SPE_BLE_MAC, bleSetInfo.getMac_address());
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFail(String error) {
+//
+//                        }
+//                    });
+//
+//            ServiceUtil.getInstance().getSelectedTableName(
+//                    String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
+//                    new ServiceUtil.JsonInterface() {
+//                        @Override
+//                        public void onSucced(String json) {
+//                            try {
+//                                TableInfo tableInfo = ServiceUtil.getInstance().parserSingleData(json, TableInfo.class);
+//                                RememberUtil.putString(SelectTableActivity.SELECTEDTABLENAME, tableInfo.getName());
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFail(String error) {
+//
+//                        }
+//                    });
+//        }
 
 
         //add by Randy get Ble set info end
@@ -1257,7 +1257,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         sendMsg[5]= (byte) 0x01;     //状态位
         sendMsg[6]= (byte) 0x01;     //Data的第一字节 表示呼叫类型,默认0x01 点餐加菜,0x02 添加茶水，0x04呼叫结账，0x05 其他服务
         sendMsg[7]= (byte) 0x00;     //这个字节+上后一字节表示 对应的桌号,这个字节用于保存A-Z的16进制asc码
-        String tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
+//        String tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
         if (Constant.isNumeric(tableName)) {
             sendMsg[8]= (byte) Integer.parseInt(DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0)));//这个字节保存对应的数值
         }else{
@@ -1282,6 +1282,21 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         QuickUtils.log("restart pad ："+"start pad on SimpleActivity");
         screenON();
         EventBus.getDefault().removeStickyEvent(event);
+//        new VersionManager(this).uddateVersion();
+//        VideoManager.getInstance().goUpdateVideo(mVideoFsvv, this);
+//        initCacheJson();
+//        //initStats();//数据统计
+//        if(!SmartPenApplication.getSimpleVersionFlag()){
+//            SchedulingUtil.doOnDemo(this);
+//        }
+//        UpdateTableUtil.getInstance().goNewTable();
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onWifiStatus(OnNetWorkEvent event) {
+        QuickUtils.log("Wifi Status："+"wifi status changed");
+//        screenON();
+        EventBus.getDefault().removeStickyEvent(event);
         new VersionManager(this).uddateVersion();
         VideoManager.getInstance().goUpdateVideo(mVideoFsvv, this);
         initCacheJson();
@@ -1289,7 +1304,55 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         if(!SmartPenApplication.getSimpleVersionFlag()){
             SchedulingUtil.doOnDemo(this);
         }
+        if(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)!=8888) {
+            //删除tableName获取,这个信息可以放置在选择桌号内处理
+//             tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
+            ServiceUtil.getInstance().getBleSetInfo(QuickUtils.getOrgIdFromSp(),
+                    String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
+                    new ServiceUtil.JsonInterface() {
+                        @Override
+                        public void onSucced(String json) {
+                            try {
+                                BleSetInfo bleSetInfo = ServiceUtil.getInstance().parserSingleData(json, BleSetInfo.class);
+//                                RememberUtil.putInt(SPE_WATCH_ADD, Integer.parseInt(bleSetInfo.getWatchadd()));
+                                //支持多个手环配置
+                                RememberUtil.putString(SPE_WATCH_ADD,bleSetInfo.getWatchadd());
+//                                RememberUtil.putInt(SPE_DONGLE_ADD, Integer.parseInt(bleSetInfo.getDongleadd()));
+                                RememberUtil.putString(SPE_DONGLE_ADD, bleSetInfo.getDongleadd());
+                                RememberUtil.putString(SPE_BLE_MAC, bleSetInfo.getMac_address());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFail(String error) {
+
+                        }
+                    });
+
+//            ServiceUtil.getInstance().getSelectedTableName(
+//                    String.valueOf(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)),
+//                    new ServiceUtil.JsonInterface() {
+//                        @Override
+//                        public void onSucced(String json) {
+//                            try {
+//                                TableInfo tableInfo = ServiceUtil.getInstance().parserSingleData(json, TableInfo.class);
+//                                RememberUtil.putString(SelectTableActivity.SELECTEDTABLENAME, tableInfo.getName());
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFail(String error) {
+//
+//                        }
+//                    });
+        }
         UpdateTableUtil.getInstance().goNewTable();
+        tableName = RememberUtil.getString(SelectTableActivity.SELECTEDTABLENAME,null);
     }
 
     private void screenON() {
@@ -1695,13 +1758,13 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
     //add by randy for wifiwatch
     private void sendCallServiceToWifiWatch(MessageCode messageCode){
         RabbitMQRunnable rabbitMQRunnable;
-        tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
+//        tableName = DatabaseHelper.getsInstance(this.mContext).getTableName(RememberUtil.getLong(SelectTableActivity.SELECTEDTABLEID,0));
         String callService = transCallServer(messageCode);
         String mqMessage=null;
         if(tableName!=null) {
              mqMessage = "FF|FC|" + tableName + "|"+callService;
         }else{
-             mqMessage = "FF|FC|"+"未知"+"|"+callService;
+             mqMessage = "FF|FC|"+"未知桌号"+"|"+callService;
         }
         rabbitMQRunnable = initMQProductor();
         if(rabbitMQRunnable!=null) {

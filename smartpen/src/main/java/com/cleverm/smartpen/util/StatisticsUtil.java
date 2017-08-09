@@ -155,6 +155,10 @@ public class StatisticsUtil {
     public static final String ENTRANCE_JD_DESC="JD618";
     public static final int VIDEO_JJ=43;
     public static final String VIDEO_JJ_DES="JJ视频点击";
+    public static final int WIFI_CLOSED=44;
+    public static final String WIFI_CLOSED_DES="网络关闭";
+    public static final int WIFI_UNAVAILABLE=45;
+    public static final String WIFI_UNAVAILABLE_DES="网络不可用";
 
 
 
