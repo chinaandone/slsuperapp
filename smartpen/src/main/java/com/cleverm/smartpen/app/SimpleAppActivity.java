@@ -649,6 +649,7 @@ public class SimpleAppActivity extends BaseActivity implements View.OnClickListe
         SimpleStatisticsLogic.getInstance().start(this);
         VideoManager.getInstance().initVideoEngine(mVideoFsvv, this);
         RememberUtil.putBoolean(Constant.BROADCAST_RESATRT_EVENT, false);
+        tableName = RememberUtil.getString(SelectTableActivity.SELECTEDTABLENAME,null);
         //add by Randy get Ble set info start
 //        if(RememberUtil.getLong(BaseSelectTableActivity.SELECTEDTABLEID, 8888)!=8888) {
 //            //删除tableName获取,这个信息可以放置在选择桌号内处理
